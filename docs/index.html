@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UFO / UAP Weltkarte &middot; Information Machine (Preview)</title>
+<link rel="preconnect" href="https://server.arcgisonline.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="./hud.css">
+<style>
+  /* preview page only, not part of the widget */
+  html, body { margin: 0; background: #050b12; }
+  .im-preview { max-width: 1120px; margin: 0 auto; padding: 16px 12px 40px; }
+</style>
+</head>
+<body>
+<div class="im-preview">
+<!-- IM-UFO-WORLD:START  (Blogger HTML widget = everything between START and END; Leaflet comes from the theme) -->
+<style>
+.im-hud-ufow { overflow: hidden; display: flex; flex-direction: column; }
+.im-hud-ufow .im-uw-map { flex: 0 0 auto; height: 540px; min-height: 360px; position: relative; overflow: hidden; background: #071018; }
+.im-hud-ufow .leaflet-container { width: 100% !important; height: 100% !important; overflow: hidden !important; background: #071018; font-family: var(--font-data); }
+.im-uw-ctl {
+  position: relative; z-index: 6; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+  padding: 6px 8px; border-bottom: 1px solid var(--hud-edge); background: rgba(8, 16, 28, 0.92);
+  font-family: var(--font-data); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #dceaf4;
+}
+.im-uw-grp { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.im-uw-lbl { color: rgba(197, 216, 232, 0.82); margin-right: 2px; }
+.im-uw-chip, .im-uw-sel {
+  margin: 0; min-height: 22px; padding: 3px 7px; border: 1px solid rgba(126, 182, 212, 0.32); border-radius: 2px;
+  background: transparent; color: #dceaf4; font: inherit; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+}
+.im-uw-chip[aria-pressed="true"] { background: rgba(126, 182, 212, 0.18); border-color: var(--hud-line); color: #f4f8fb; }
+.im-uw-chip[aria-pressed="false"] { color: rgba(197, 216, 232, 0.6); }
+.im-uw-chip:focus-visible, .im-uw-sel:focus-visible, .im-hud-ufow .im-hud-tabs button:focus-visible, .im-uw-range input:focus-visible { outline: 1px solid var(--hud-accent); outline-offset: 1px; }
+.im-uw-chip.im-uw-ifo[aria-pressed="true"] { border-color: var(--hud-accent); color: var(--hud-accent); background: rgba(200, 240, 74, 0.08); }
+.im-uw-sel { background: #0b1522; padding-right: 4px; }
+.im-uw-sw { display: inline-block; width: 6px; height: 6px; margin-right: 5px; border-radius: 50%; vertical-align: middle; background: currentColor; }
+.im-uw-time { position: relative; z-index: 6; padding: 6px 10px 7px; border-top: 1px solid var(--hud-edge); background: rgba(8, 16, 28, 0.96); font-family: var(--font-data); font-size: 9px; letter-spacing: 0.1em; color: #dceaf4; }
+.im-uw-time[hidden] { display: none; }
+.im-uw-trow { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 3px; text-transform: uppercase; }
+.im-uw-trow b { font-weight: 500; color: #f4f8fb; font-size: 11px; letter-spacing: 0.04em; }
+.im-uw-range { position: relative; height: 34px; }
+.im-uw-range canvas { position: absolute; left: 0; right: 0; top: 0; width: 100%; height: 20px; display: block; }
+.im-uw-range input { position: absolute; left: 0; right: 0; top: 12px; width: 100%; margin: 0; height: 20px; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; }
+.im-uw-range input::-webkit-slider-runnable-track { height: 2px; background: rgba(126, 182, 212, 0.25); }
+.im-uw-range input::-moz-range-track { height: 2px; background: rgba(126, 182, 212, 0.25); }
+.im-uw-range input::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; width: 14px; height: 14px; margin-top: -6px; border-radius: 2px; border: 1px solid var(--hud-accent); background: #0b1522; cursor: ew-resize; }
+.im-uw-range input::-moz-range-thumb { pointer-events: auto; width: 12px; height: 12px; border-radius: 2px; border: 1px solid var(--hud-accent); background: #0b1522; cursor: ew-resize; }
+.im-uw-ticks { display: flex; justify-content: space-between; color: rgba(197, 216, 232, 0.7); font-size: 8px; }
+.im-uw-leg { position: relative; z-index: 6; display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 5px 8px 6px; border-top: 1px solid var(--hud-edge); background: rgba(8, 16, 28, 0.96); font-family: var(--font-data); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: #dceaf4; }
+.im-uw-attr { position: relative; z-index: 6; padding: 5px 8px 7px; border-top: 1px solid var(--hud-edge); background: rgba(8, 16, 28, 0.96); font-family: var(--font-data); font-size: 8px; line-height: 1.5; letter-spacing: 0.04em; color: rgba(197, 216, 232, 0.82); overflow-wrap: break-word; }
+.im-uw-attr a { color: #dceaf4; }
+.im-uw-attr strong { color: #dceaf4; font-weight: 500; }
+.im-hud-ufow .im-hud-readout { grid-template-columns: 1fr 1fr 1fr; }
+.im-uw-status { font-family: var(--font-data); }
+.im-uw-live { display: none; color: rgba(197, 216, 232, 0.86); letter-spacing: 0.08em; }
+.im-hud-ufow.is-live .im-uw-live { display: block; }
+.im-hud-ufow.is-live [data-im-uw-arch] { display: none !important; }
+.im-hud-ufow .leaflet-bar { border: 1px solid rgba(126, 182, 212, 0.35); border-radius: 2px; box-shadow: none; }
+.im-hud-ufow .leaflet-bar a { background: rgba(11, 21, 34, 0.92); color: #dceaf4; border-bottom-color: rgba(126, 182, 212, 0.25); font-family: var(--font-data); font-weight: 400; }
+.im-hud-ufow .leaflet-bar a:hover, .im-hud-ufow .leaflet-bar a:focus { background: #0b1522; color: var(--hud-accent); }
+.im-hud-ufow .leaflet-bar a.leaflet-disabled { background: rgba(11, 21, 34, 0.92); color: rgba(197, 216, 232, 0.35); }
+/* clusters */
+.im-uw-cl { background: none !important; border: 0 !important; }
+.im-uw-cl span {
+  display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%;
+  background: rgba(11, 21, 34, 0.9); border: 1px solid var(--uw-c, #7eb6d4); color: #f4f8fb;
+  font: 500 10px/1 "IBM Plex Mono", ui-monospace, monospace; letter-spacing: 0.02em;
+  box-shadow: 0 0 0 3px rgba(126, 182, 212, 0.12);
+}
+/* popup */
+.im-hud-ufow .leaflet-popup-content-wrapper { background: #0b1522; color: #c5d8e8; border: 1px solid rgba(126, 182, 212, 0.38); border-radius: 2px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45); }
+.im-hud-ufow .leaflet-popup-tip { background: #0b1522; border: 1px solid rgba(126, 182, 212, 0.38); }
+.im-hud-ufow .leaflet-popup-content { margin: 9px 11px 9px; width: 268px; max-width: 70vw; font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 12px; line-height: 1.4; overflow-wrap: break-word; }
+.im-hud-ufow a.leaflet-popup-close-button { color: #dceaf4; }
+.im-uw-p-k { display: block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #dceaf4; margin-bottom: 3px; }
+.im-uw-p-h { display: block; font-weight: 600; color: #f4f8fb; font-size: 13px; line-height: 1.3; margin-bottom: 4px; }
+.im-uw-p-c { display: inline-block; margin: 0 0 5px; padding: 1px 5px; border: 1px solid currentColor; border-radius: 2px; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: 0.06em; }
+.im-uw-p-s { display: block; color: #c5d8e8; margin-bottom: 5px; }
+.im-uw-p-m { display: block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; color: rgba(197, 216, 232, 0.86); margin-bottom: 5px; }
+.im-uw-p-a { display: block; padding-top: 5px; border-top: 1px solid rgba(126, 182, 212, 0.22); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; letter-spacing: 0.04em; color: rgba(197, 216, 232, 0.86); }
+.im-uw-p-l { color: var(--hud-accent) !important; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; }
+.im-uw-c-a { color: #8fd3a8; } .im-uw-c-b { color: #9bb3c4; } .im-uw-c-c { color: #e0c35f; } .im-uw-c-d { color: #ff8f73; }
+@media screen and (max-width: 760px) {
+  .im-hud-ufow .im-uw-map { height: 380px; min-height: 300px; }
+  .im-uw-ctl { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .im-uw-ctl::-webkit-scrollbar { display: none; }
+  .im-uw-grp { flex-wrap: nowrap; flex: 0 0 auto; }
+  .im-uw-chip, .im-uw-sel { min-height: 28px; }
+  .im-hud-ufow .im-hud-tabs button { padding: 8px 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .im-hud-ufow * { transition: none !important; animation: none !important; }
+}
+</style>
+<div class="im-hud im-hud-ufow" id="im-hud-ufow">
+  <div class="im-hud-bar">
+    <span class="im-hud-brand">UFO &middot; UAP</span>
+    <span class="im-hud-live">WELT</span>
+    <span class="im-hud-meta" id="im-uw-meta">GEIPAN &middot; BLUE BOOK &middot; PURSUE &middot; AARO</span>
+  </div>
+  <div class="im-hud-tabs" role="tablist" aria-label="Zeitfenster">
+    <button type="button" role="tab" data-im-uw-tab="24h" aria-selected="false">24H</button>
+    <button type="button" role="tab" data-im-uw-tab="7d" aria-selected="false">7D</button>
+    <button type="button" role="tab" data-im-uw-tab="30d" aria-selected="false">30D</button>
+    <button type="button" role="tab" class="is-on" data-im-uw-tab="archiv" aria-selected="true">ARCHIV</button>
+  </div>
+  <div class="im-uw-ctl" id="im-uw-ctl">
+    <div class="im-uw-grp" data-im-uw-arch="1">
+      <span class="im-uw-lbl">QUELLE</span>
+      <button type="button" class="im-uw-chip" data-im-uw-src="geipan" aria-pressed="true"><i class="im-uw-sw" style="color:#7eb6d4"></i>GEIPAN</button>
+      <button type="button" class="im-uw-chip" data-im-uw-src="nara" aria-pressed="true"><i class="im-uw-sw" style="color:#e0c35f"></i>BLUE BOOK</button>
+      <button type="button" class="im-uw-chip" data-im-uw-src="pursue" aria-pressed="true"><i class="im-uw-sw" style="color:#ff8f73"></i>PURSUE</button>
+      <button type="button" class="im-uw-chip" data-im-uw-src="aaro" aria-pressed="true"><i class="im-uw-sw" style="color:#f4a0c0"></i>AARO</button>
+    </div>
+    <div class="im-uw-grp" data-im-uw-arch="1">
+      <span class="im-uw-lbl">KLASSE</span>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="A" aria-pressed="true" title="GEIPAN A: eindeutig identifiziert">A</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="B" aria-pressed="true" title="GEIPAN B: wahrscheinlich identifiziert">B</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="C" aria-pressed="true" title="GEIPAN C: zu wenig Daten">C</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="D" aria-pressed="true" title="GEIPAN D: nach Untersuchung unerkl&auml;rt">D</button>
+    </div>
+    <div class="im-uw-grp" data-im-uw-arch="1">
+      <label class="im-uw-lbl" for="im-uw-shape">FORM</label>
+      <select class="im-uw-sel" id="im-uw-shape"><option value="">ALLE</option></select>
+      <label class="im-uw-lbl" for="im-uw-origin">HERKUNFT</label>
+      <select class="im-uw-sel" id="im-uw-origin">
+        <option value="">ALLE</option>
+        <option value="official">AMTLICH</option>
+        <option value="civil">ZIVIL</option>
+      </select>
+    </div>
+    <div class="im-uw-live" id="im-uw-live">SKY NOW &mdash; STAND: <span id="im-uw-stamp">&mdash;</span></div>
+    <div class="im-uw-grp" data-im-uw-arch="1">
+      <button type="button" class="im-uw-chip im-uw-ifo" id="im-uw-ifo" aria-pressed="false" title="Blendet F&auml;lle aus, die amtlich als erkl&auml;rt gelten (GEIPAN A/B, AARO aufgekl&auml;rt)">IFOs ausblenden</button>
+      <button type="button" class="im-uw-chip" id="im-uw-heat" aria-pressed="false">HEATMAP</button>
+    </div>
+  </div>
+  <div class="im-uw-map" id="im-uw-map" aria-label="Weltkarte der Sichtungen"></div>
+  <div class="im-uw-time" id="im-uw-time">
+    <div class="im-uw-trow"><span>ZEITRAUM</span><b id="im-uw-yrs">&mdash;</b><span id="im-uw-load" class="im-uw-status">&nbsp;</span></div>
+    <div class="im-uw-range">
+      <canvas id="im-uw-hist" aria-hidden="true"></canvas>
+      <input type="range" id="im-uw-y0" min="1937" max="2026" step="1" value="2000" aria-label="Von Jahr">
+      <input type="range" id="im-uw-y1" min="1937" max="2026" step="1" value="2026" aria-label="Bis Jahr">
+    </div>
+    <div class="im-uw-ticks"><span>1937</span><span>1950</span><span>1970</span><span>1990</span><span>2010</span><span>2026</span></div>
+  </div>
+  <div class="im-uw-leg" id="im-uw-leg" aria-hidden="true">
+    <span><i class="im-uw-sw" style="color:#7eb6d4"></i>GEIPAN (FR)</span>
+    <span><i class="im-uw-sw" style="color:#e0c35f"></i>BLUE BOOK 1947&ndash;69</span>
+    <span><i class="im-uw-sw" style="color:#ff8f73"></i>PURSUE / AARO (REGION)</span>
+    <span><i class="im-uw-sw" style="color:#c8f04a"></i>STARLINK SICHTBAR</span>
+    <span><i class="im-uw-sw" style="color:#f4f8fb"></i>RAKETENSTART</span>
+    <span><i class="im-uw-sw" style="color:#ffa04a"></i>BOLIDE</span>
+    <span>RING = KLASSE D / UNGEL&Ouml;ST</span>
+  </div>
+  <div class="im-hud-readout">
+    <div><span class="im-hud-k" id="im-uw-nk">F&Auml;LLE</span><span class="im-hud-v" id="im-uw-n">&mdash;</span></div>
+    <div><span class="im-hud-k" id="im-uw-uk">UNERKL&Auml;RT</span><span class="im-hud-v" id="im-uw-u" title="GEIPAN D + amtlich ungel&ouml;st (PURSUE/AARO)">&mdash;</span></div>
+    <div><span class="im-hud-k" id="im-uw-qk">IFO-QUOTE</span><span class="im-hud-v" id="im-uw-q" title="Anteil amtlich erkl&auml;rter F&auml;lle unter den F&auml;llen mit Bewertung">&mdash;</span></div>
+  </div>
+  <div class="im-hud-readout">
+    <div><span class="im-hud-k">STARLINK</span><span class="im-hud-v" id="im-uw-sl" title="Satelliten in der Sonne &uuml;ber dunklem Boden, Stand der Daten">&mdash;</span></div>
+    <div><span class="im-hud-k">STARTS</span><span class="im-hud-v" id="im-uw-ls" title="Raketenstarts im Fenster: vergangen &middot; geplant">&mdash;</span></div>
+    <div><span class="im-hud-k">AGE</span><span class="im-hud-v" id="im-uw-age" title="Alter der Sky-Now-Daten">&mdash;</span></div>
+  </div>
+  <div class="im-uw-attr" id="im-uw-attr">
+    <strong>Quellen:</strong> &copy; CNES/GEIPAN &ndash; Quelle: geipan.fr, Bildungszweck &middot; Source: U.S. National Archives (NARA) &middot;
+    U.S. Department of War: PURSUE &amp; AARO (Region, keine exakten Orte) &middot; CelesTrak &middot; Launch Library 2 (The Space Devs) &middot;
+    NASA/JPL CNEOS &middot; Geocoding GeoNames (CC BY 4.0) &middot; Karte &copy; Esri.
+    Zivile Melde-Datenbanken (NUFORC, MUFON u. a.) sind aus Lizenzgr&uuml;nden nicht enthalten.
+  </div>
+</div>
+<script>
+(function () {
+  /* >>>>>>>>>> DATA_BASE: EINZIGE ZEILE ZUM ANPASSEN – <GITHUB_USER> durch deinen GitHub-Benutzernamen ersetzen <<<<<<<<<< */
+  var DATA_BASE = "https://<GITHUB_USER>.github.io/im-ufo-data/data/";
+  if (DATA_BASE.indexOf("<") !== -1) DATA_BASE = "./data/"; /* Platzhalter noch drin -> relative Daten (lokale Preview / Pages-Testseite) */
+  var EM = "\u2014", DOT = " \u00b7 ";
+  var LIBS = [
+    ["https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js", function () { return window.L && L.markerClusterGroup; }],
+    ["https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js", function () { return window.L && L.heatLayer; }]
+  ];
+  var SRC = {
+    geipan: { label: "GEIPAN (CNES)", color: "#7eb6d4" },
+    nara: { label: "Project Blue Book (NARA)", color: "#e0c35f" },
+    pursue: { label: "PURSUE (U.S. DoW)", color: "#ff8f73" },
+    aaro: { label: "AARO (U.S. DoW)", color: "#f4a0c0" }
+  };
+  var SHAPE_DE = { sphere: "Kugel", circle: "Kreis", oval: "Oval", light: "Lichtpunkt", lights: "Mehrere Lichter", beam: "Strahl",
+    cone: "Kegel", cylinder: "Zylinder", cigar: "Zigarre", triangle: "Dreieck", rectangle: "Rechteck", disc: "Scheibe" };
+  var IFO_STATUS = { identified: 1, probable: 1 };
+  var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var st = { tab: "archiv", y0: 2000, y1: 2026, src: { geipan: 1, nara: 1, pursue: 1, aaro: 1 }, cls: { A: 1, B: 1, C: 1, D: 1 },
+    shape: "", origin: "", hideIfo: false, heat: false };
+  var meta = null, sky = null, dec = {}, decP = {}, map = null, cluster = null, heat = null, regions = null, skyLayer = null;
+  var mk = {}, renderSeq = 0, liveTried = false;
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function setTxt(id, t, tone) { var el = $(id); if (!el) return; el.textContent = t; el.className = "im-hud-v" + (tone ? " " + tone : ""); }
+  function getJSON(url) { return fetch(url, { cache: "default" }).then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); }); }
+  function loadScript(src) {
+    return new Promise(function (ok, bad) { var s = document.createElement("script"); s.src = src; s.async = true; s.onload = ok; s.onerror = bad; document.head.appendChild(s); });
+  }
+  function ensureLibs() {
+    return LIBS.reduce(function (p, l) { return p.then(function () { return l[1]() ? null : loadScript(l[0]); }); }, Promise.resolve());
+  }
+  function ageTxt(iso) {
+    var t = Date.parse(iso); if (!t) return EM;
+    var m = Math.max(0, Math.round((Date.now() - t) / 60000));
+    if (m < 60) return m + "m"; if (m < 48 * 60) return Math.round(m / 60) + "h"; return Math.round(m / 1440) + "d";
+  }
+  function fmtDate(p) {
+    var d = p.date_utc || (p.year ? String(p.year) : ""); if (!d) return EM;
+    var a = d.split("-");
+    if (a.length === 3) return a[2].slice(0, 2) + "." + a[1] + "." + a[0];
+    if (a.length === 2) return a[1] + "/" + a[0];
+    return a[0];
+  }
+
+  /* ---------- data ---------- */
+  function loadDecade(d) {
+    if (dec[d]) return Promise.resolve(dec[d]);
+    if (!decP[d]) {
+      decP[d] = getJSON(DATA_BASE + "archive/" + d + ".geojson").then(function (fc) { dec[d] = fc.features || []; return dec[d]; })
+        .catch(function () { delete decP[d]; dec[d] = null; return []; });
+    }
+    return decP[d];
+  }
+  function decadesFor(y0, y1) {
+    var out = [], have = {}; (meta ? meta.decades : []).forEach(function (x) { have[x.decade] = 1; });
+    for (var d = Math.floor(y0 / 10) * 10; d <= y1; d += 10) if (have[d]) out.push(d);
+    return out;
+  }
+  function pass(p) {
+    if (!st.src[p.source]) return false;
+    if (p.year < st.y0 || p.year > st.y1) return false;
+    var c = p.classification || {};
+    if (p.source === "geipan" && !st.cls[c.value]) return false;
+    if (st.shape && p.shape !== st.shape) return false;
+    if (st.origin === "official" && !p.official) return false;
+    if (st.origin === "civil" && p.official) return false;
+    if (st.hideIfo && p.ifo && IFO_STATUS[p.ifo.status]) return false;
+    return true;
+  }
+  function isOpen(p) { var s = p.ifo && p.ifo.status; return s === "unexplained" || s === "unresolved" || s === "pending"; }
+
+  /* ---------- markers ---------- */
+  function popupHTML(p) {
+    var c = p.classification || {}, s = SRC[p.source] || { label: p.source };
+    var cc = p.source === "geipan" ? "im-uw-c-" + String(c.value || "").toLowerCase() : (isOpen(p) ? "im-uw-c-d" : "im-uw-c-a");
+    var bits = [];
+    if (p.shape) bits.push("FORM " + (SHAPE_DE[p.shape] || p.shape));
+    if (p.witnesses) bits.push(p.witnesses + (p.witnesses === 1 ? " ZEUGNIS" : " ZEUGNISSE"));
+    if (p.geo_precision_km) bits.push("LAGE \u00b1" + p.geo_precision_km + " KM");
+    if (p.agency) bits.push(String(p.agency).toUpperCase());
+    var attr = (meta && meta.attributions && meta.attributions[p.source]) || p.license || "";
+    return '<span class="im-uw-p-k">' + esc(s.label) + DOT + esc(fmtDate(p)) + "</span>" +
+      '<span class="im-uw-p-h">' + esc(p.title || p.location_name || EM) + "</span>" +
+      (c.label ? '<span class="im-uw-p-c ' + cc + '">' + esc(c.label) + "</span>" : "") +
+      (c.explanation ? '<span class="im-uw-p-m">ERKL\u00c4RUNG: ' + esc(c.explanation) + "</span>" : "") +
+      (p.summary ? '<span class="im-uw-p-s">' + esc(p.summary) + "</span>" : "") +
+      (p.title && p.location_name ? '<span class="im-uw-p-m">ORT: ' + esc(p.location_name) + "</span>" : "") +
+      (bits.length ? '<span class="im-uw-p-m">' + esc(bits.join(DOT)) + "</span>" : "") +
+      (p.source_url ? '<a class="im-uw-p-l" href="' + esc(p.source_url) + '" target="_blank" rel="noopener">QUELLE \u00d6FFNEN \u2197</a>' : "") +
+      '<span class="im-uw-p-a">' + esc(attr) + "</span>";
+  }
+  function markerFor(f) {
+    var p = f.properties, id = p.id;
+    if (mk[id]) return mk[id];
+    var g = f.geometry.coordinates, col = (SRC[p.source] || {}).color || "#c5d8e8", open = isOpen(p);
+    var m = L.circleMarker([g[1], g[0]], {
+      radius: open ? 5 : 3.5, color: open ? "#c8f04a" : col, weight: open ? 1.6 : 1,
+      fillColor: col, fillOpacity: p.ifo && IFO_STATUS[p.ifo.status] ? 0.45 : 0.9
+    });
+    m.__p = p;
+    m.bindTooltip(esc((p.location_name || "").slice(0, 48)) + "<br/>" + esc(fmtDate(p)), { className: "im-hud-tip", direction: "top", opacity: 0.94 });
+    m.bindPopup(function () { return popupHTML(p); }, { maxWidth: 300, autoPanPadding: [16, 16] });
+    mk[id] = m; return m;
+  }
+  function clusterIcon(c) {
+    var n = c.getChildCount(), kids = c.getAllChildMarkers(), cnt = {}, best = "geipan", bn = 0, i, s;
+    for (i = 0; i < kids.length && i < 400; i++) { s = kids[i].__p ? kids[i].__p.source : "geipan"; cnt[s] = (cnt[s] || 0) + 1; if (cnt[s] > bn) { bn = cnt[s]; best = s; } }
+    var sz = n < 10 ? 26 : n < 100 ? 32 : n < 1000 ? 38 : 44;
+    return L.divIcon({ className: "im-uw-cl", iconSize: [sz, sz],
+      html: '<span style="--uw-c:' + ((SRC[best] || {}).color || "#7eb6d4") + '">' + (n >= 1000 ? (n / 1000).toFixed(1) + "k" : n) + "</span>" });
+  }
+
+  /* ---------- render ---------- */
+  function renderArchive() {
+    var seq = ++renderSeq, ds = decadesFor(st.y0, st.y1);
+    var pending = ds.filter(function (d) { return !dec[d]; });
+    $("im-uw-load").textContent = pending.length ? "LADE " + pending.map(function (d) { return d + "ER"; }).join(" ") + "\u2026" : "";
+    return Promise.all(ds.map(loadDecade)).then(function (lists) {
+      if (seq !== renderSeq || st.tab !== "archiv") return;
+      var ms = [], hp = [], rg = {}, n = 0, open = 0, rated = 0, ifo = 0;
+      lists.forEach(function (fs) {
+        (fs || []).forEach(function (f) {
+          var p = f.properties; if (!pass(p)) return;
+          n++; if (isOpen(p)) open++;
+          if (p.ifo && p.ifo.status) { rated++; if (IFO_STATUS[p.ifo.status]) ifo++; }
+          ms.push(markerFor(f));
+          var g = f.geometry.coordinates; hp.push([g[1], g[0], 0.6]);
+          if (p.geo_precision_km >= 100) { var k = g[1] + "," + g[0]; if (!rg[k]) rg[k] = [g[1], g[0], p.geo_precision_km, 0]; rg[k][3]++; }
+        });
+      });
+      cluster.clearLayers(); regions.clearLayers();
+      Object.keys(rg).forEach(function (k) {
+        var r = rg[k];
+        L.circle([r[0], r[1]], { radius: Math.min(r[2], 1200) * 600, color: "#ff8f73", weight: 1, opacity: 0.55, dashArray: "4 4", fill: true, fillOpacity: 0.04, interactive: false }).addTo(regions);
+      });
+      if (st.heat) { heat.setLatLngs(hp); if (map.hasLayer(cluster)) map.removeLayer(cluster); if (!map.hasLayer(heat)) heat.addTo(map); }
+      else { if (map.hasLayer(heat)) map.removeLayer(heat); if (!map.hasLayer(cluster)) cluster.addTo(map); cluster.addLayers(ms); }
+      setTxt("im-uw-n", n.toLocaleString("de-CH"));
+      setTxt("im-uw-u", open.toLocaleString("de-CH"), open ? "im-hud-warm" : "");
+      setTxt("im-uw-q", rated ? Math.round(100 * ifo / rated) + "%" : EM);
+      $("im-uw-load").textContent = "";
+    });
+  }
+  function inWin(iso, days) { var t = Date.parse(iso); if (!t) return false; var now = Date.now(); return Math.abs(now - t) <= days * 864e5; }
+  function renderSky() {
+    var days = st.tab === "24h" ? 1 : st.tab === "7d" ? 7 : 30;
+    skyLayer.clearLayers();
+    if (!sky) return;
+    var nPast = 0, nNext = 0, nFb = 0;
+    (sky.starlink.points || []).forEach(function (q) {
+      L.circleMarker([q[1], q[0]], { radius: 1.8, stroke: false, fillColor: "#c8f04a", fillOpacity: 0.85 })
+        .bindTooltip(esc(q[2]) + "<br/>SICHTBAR M\u00d6GLICH", { className: "im-hud-tip", direction: "top" }).addTo(skyLayer);
+    });
+    (sky.starlink.fresh_trains || []).forEach(function (t) {
+      var segs = [[]], prev = null;
+      t.track.forEach(function (c) { if (prev && Math.abs(c[0] - prev[0]) > 180) segs.push([]); segs[segs.length - 1].push([c[1], c[0]]); prev = c; });
+      segs.forEach(function (s) {
+        L.polyline(s, { color: "#c8f04a", weight: 1.2, opacity: 0.7, dashArray: "5 4" })
+          .bindTooltip("STARLINK-ZUG " + esc(t.launch) + DOT + t.n + " SAT.<br/>BAHN \u00b145 MIN", { className: "im-hud-tip", sticky: true }).addTo(skyLayer);
+      });
+    });
+    (sky.launches.features || []).forEach(function (f) {
+      var p = f.properties; if (!inWin(p.net, days)) return;
+      var past = Date.parse(p.net) <= Date.now(); if (past) nPast++; else nNext++;
+      var g = f.geometry.coordinates;
+      L.circleMarker([g[1], g[0]], { radius: 5, color: "#f4f8fb", weight: 1.4, fillColor: past ? "#f4f8fb" : "#0b1522", fillOpacity: 0.9 })
+        .bindPopup('<span class="im-uw-p-k">' + (past ? "START" : "GEPLANT") + DOT + esc(new Date(p.net).toLocaleString("de-CH", { timeZone: "Europe/Zurich", dateStyle: "short", timeStyle: "short" })) + "</span>" +
+          '<span class="im-uw-p-h">' + esc(p.name) + "</span>" +
+          '<span class="im-uw-p-m">' + esc([p.provider, p.orbit, p.status].filter(Boolean).join(DOT)) + "</span>" +
+          '<span class="im-uw-p-m">' + esc(p.pad || "") + "</span>" +
+          (p.starlink ? '<span class="im-uw-p-s">Frische Starlink-Z\u00fcge sind eine der h\u00e4ufigsten Ursachen f\u00fcr UFO-Meldungen.</span>' : "") +
+          '<span class="im-uw-p-a">' + esc(meta ? meta.attributions.ll2 : "Launch Library 2") + "</span>", { maxWidth: 300 })
+        .addTo(skyLayer);
+    });
+    (sky.fireballs.features || []).forEach(function (f) {
+      var p = f.properties; if (!inWin(p.date_utc, days)) return; nFb++;
+      var g = f.geometry.coordinates, e = Number(p.energy_kt) || 0.05;
+      L.circleMarker([g[1], g[0]], { radius: Math.min(9, 3 + Math.log10(e * 100 + 1) * 2), color: "#ffa04a", weight: 1.2, fillColor: "#ffa04a", fillOpacity: 0.55 })
+        .bindPopup('<span class="im-uw-p-k">BOLIDE' + DOT + esc(p.date_utc.replace("T", " ").slice(0, 16)) + " UTC</span>" +
+          '<span class="im-uw-p-h">Feuerkugel (Meteor)</span>' +
+          '<span class="im-uw-p-m">' + esc(["ENERGIE " + (p.energy_kt || "?") + " KT", p.alt_km ? "H\u00d6HE " + p.alt_km + " KM" : "", p.vel_kms ? p.vel_kms + " KM/S" : ""].filter(Boolean).join(DOT)) + "</span>" +
+          '<a class="im-uw-p-l" href="https://cneos.jpl.nasa.gov/fireballs/" target="_blank" rel="noopener">QUELLE \u00d6FFNEN \u2197</a>' +
+          '<span class="im-uw-p-a">' + esc(meta ? meta.attributions.jpl : "NASA/JPL CNEOS") + "</span>", { maxWidth: 300 })
+        .addTo(skyLayer);
+    });
+    setTxt("im-uw-n", (nPast + nNext + nFb).toLocaleString("de-CH"));
+    setTxt("im-uw-u", nFb.toLocaleString("de-CH"), nFb ? "im-hud-warm" : "");
+    setTxt("im-uw-q", String((sky.starlink.fresh_trains || []).length));
+    setTxt("im-uw-ls", nPast + DOT + nNext, nNext ? "im-hud-ok" : "");
+  }
+  function skyReadouts() {
+    if (!sky) return;
+    setTxt("im-uw-sl", sky.starlink.maybe_visible.toLocaleString("de-CH"), "im-hud-ok");
+    setTxt("im-uw-age", ageTxt(sky.generated_utc));
+    $("im-uw-stamp").textContent = new Date(sky.generated_utc).toLocaleString("de-CH", { timeZone: "Europe/Zurich", dateStyle: "short", timeStyle: "short" }) +
+      " (Z\u00dcRICH) \u00b7 STARLINK = IN DER SONNE \u00dcBER DUNKLEM BODEN \u00b7 GESTRICHELT = J\u00dcNGSTE STARLINK-Z\u00dcGE";
+    if (st.tab === "archiv") {
+      var p = 0, n = 0;
+      (sky.launches.features || []).forEach(function (f) { if (inWin(f.properties.net, 30)) { if (Date.parse(f.properties.net) <= Date.now()) p++; else n++; } });
+      setTxt("im-uw-ls", p + DOT + n);
+    }
+  }
+  function refreshLaunchesLive() {
+    /* LL2 sends Access-Control-Allow-Origin: * ; free tier = 15 requests/hour per IP, so one try per page view. */
+    if (liveTried || !sky || Date.now() - Date.parse(sky.generated_utc) < 3600e3) return;
+    liveTried = true;
+    getJSON("https://ll.thespacedevs.com/2.3.0/launches/upcoming/?limit=20&mode=normal").then(function (d) {
+      var fresh = (d.results || []).map(function (x) {
+        var pad = x.pad || {}, la = Number(pad.latitude), lo = Number(pad.longitude);
+        if (!isFinite(la) || !isFinite(lo)) return null;
+        return { type: "Feature", geometry: { type: "Point", coordinates: [lo, la] }, properties: { id: "ll2:" + x.id, source: "ll2", when: "upcoming", name: x.name, net: x.net,
+          status: (x.status || {}).abbrev, provider: (x.launch_service_provider || {}).name, orbit: ((x.mission || {}).orbit || {}).abbrev, pad: pad.name, starlink: /starlink/i.test(x.name || "") } };
+      }).filter(Boolean);
+      if (!fresh.length) return;
+      sky.launches.features = sky.launches.features.filter(function (f) { return f.properties.when === "recent"; }).concat(fresh);
+      if (st.tab !== "archiv") renderSky();
+      skyReadouts();
+    }).catch(function () { /* keep pre-generated file */ });
+  }
+  function render() {
+    if (!map) return;
+    var arch = st.tab === "archiv";
+    $("im-uw-time").hidden = !arch;
+    $("im-hud-ufow").classList.toggle("is-live", !arch);
+    $("im-uw-nk").textContent = arch ? "F\u00c4LLE" : "EREIGNISSE";
+    $("im-uw-uk").textContent = arch ? "UNERKL\u00c4RT" : "BOLIDE";
+    $("im-uw-qk").textContent = arch ? "IFO-QUOTE" : "STARLINK-Z\u00dcGE";
+    if (arch) {
+      if (map.hasLayer(skyLayer)) map.removeLayer(skyLayer);
+      if (!map.hasLayer(regions)) regions.addTo(map);
+      $("im-uw-meta").textContent = "GEIPAN \u00b7 BLUE BOOK \u00b7 PURSUE \u00b7 AARO";
+      renderArchive(); skyReadouts();
+    } else {
+      renderSeq++;
+      [cluster, heat, regions].forEach(function (l) { if (map.hasLayer(l)) map.removeLayer(l); });
+      if (!map.hasLayer(skyLayer)) skyLayer.addTo(map);
+      $("im-uw-meta").textContent = "SKY NOW \u00b7 STARLINK \u00b7 STARTS \u00b7 BOLIDE";
+      renderSky(); skyReadouts(); refreshLaunchesLive();
+    }
+  }
+
+  /* ---------- controls ---------- */
+  function drawHist() {
+    var cv = $("im-uw-hist"); if (!cv || !meta) return;
+    var w = cv.clientWidth || 300, h = 20, dpr = window.devicePixelRatio || 1;
+    cv.width = w * dpr; cv.height = h * dpr;
+    var ctx = cv.getContext("2d"); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+    var tot = {}, mx = 1, y, s;
+    for (s in meta.hist) { if (!st.src[s]) continue; for (y in meta.hist[s]) { tot[y] = (tot[y] || 0) + meta.hist[s][y]; } }
+    for (y in tot) mx = Math.max(mx, tot[y]);
+    var span = 2026 - 1937 + 1, bw = w / span;
+    for (y = 1937; y <= 2026; y++) {
+      var v = tot[y] || 0; if (!v) continue;
+      var bh = Math.max(1, Math.sqrt(v / mx) * (h - 2));
+      ctx.fillStyle = y >= st.y0 && y <= st.y1 ? "rgba(126,182,212,0.75)" : "rgba(126,182,212,0.22)";
+      ctx.fillRect((y - 1937) * bw, h - bh, Math.max(1, bw - 0.6), bh);
+    }
+  }
+  function syncYears() {
+    $("im-uw-yrs").textContent = st.y0 === st.y1 ? String(st.y0) : st.y0 + " \u2013 " + st.y1;
+    drawHist();
+  }
+  var yrTimer = null;
+  function onYear(ev) {
+    var a = Number($("im-uw-y0").value), b = Number($("im-uw-y1").value);
+    if (a > b) { if (ev && ev.target && ev.target.id === "im-uw-y0") { b = a; $("im-uw-y1").value = b; } else { a = b; $("im-uw-y0").value = a; } }
+    st.y0 = a; st.y1 = b; syncYears();
+    clearTimeout(yrTimer); yrTimer = setTimeout(render, 180);
+  }
+  function bindUI() {
+    var box = $("im-hud-ufow");
+    if (!box || box.getAttribute("data-ui") === "1") return;
+    box.setAttribute("data-ui", "1");
+    box.addEventListener("click", function (ev) {
+      var t = ev.target.closest("[data-im-uw-tab]");
+      if (t) {
+        st.tab = t.getAttribute("data-im-uw-tab");
+        var bs = box.querySelectorAll("[data-im-uw-tab]");
+        for (var i = 0; i < bs.length; i++) { var on = bs[i] === t; bs[i].classList.toggle("is-on", on); bs[i].setAttribute("aria-selected", on ? "true" : "false"); }
+        render(); return;
+      }
+      var c = ev.target.closest("[data-im-uw-src],[data-im-uw-cls]");
+      if (c) {
+        var on2 = c.getAttribute("aria-pressed") !== "true"; c.setAttribute("aria-pressed", on2 ? "true" : "false");
+        if (c.hasAttribute("data-im-uw-src")) st.src[c.getAttribute("data-im-uw-src")] = on2 ? 1 : 0;
+        else st.cls[c.getAttribute("data-im-uw-cls")] = on2 ? 1 : 0;
+        drawHist(); render(); return;
+      }
+      if (ev.target.closest("#im-uw-ifo")) { st.hideIfo = !st.hideIfo; $("im-uw-ifo").setAttribute("aria-pressed", st.hideIfo ? "true" : "false"); render(); return; }
+      if (ev.target.closest("#im-uw-heat")) { st.heat = !st.heat; $("im-uw-heat").setAttribute("aria-pressed", st.heat ? "true" : "false"); render(); }
+    });
+    $("im-uw-shape").addEventListener("change", function () { st.shape = this.value; render(); });
+    $("im-uw-origin").addEventListener("change", function () { st.origin = this.value; render(); });
+    $("im-uw-y0").addEventListener("input", onYear);
+    $("im-uw-y1").addEventListener("input", onYear);
+    window.addEventListener("resize", function () { drawHist(); });
+  }
+  function fillShapes() {
+    var sel = $("im-uw-shape"); if (!sel || !meta || sel.options.length > 1) return;
+    Object.keys(meta.shapes || {}).forEach(function (k) {
+      var o = document.createElement("option"); o.value = k; o.textContent = (SHAPE_DE[k] || k).toUpperCase() + " (" + meta.shapes[k] + ")"; sel.appendChild(o);
+    });
+    var org = $("im-uw-origin"), tot = 0, k2; for (k2 in meta.counts) tot += meta.counts[k2];
+    org.options[1].textContent = "AMTLICH (" + tot + ")";
+    org.options[2].textContent = "ZIVIL (0)";
+  }
+
+  function bootMap() {
+    if (!window.L) return false;
+    var el = $("im-uw-map");
+    if (!el || el.offsetWidth < 40 || el.offsetHeight < 40) return false;
+    if (el.getAttribute("data-ready") === "1") { if (map) map.invalidateSize(); return true; }
+    el.setAttribute("data-ready", "1");
+    var small = el.offsetWidth < 600;
+    map = L.map(el, { zoomControl: true, attributionControl: false, worldCopyJump: true, minZoom: 2, maxZoom: 12,
+      preferCanvas: true, zoomAnimation: !RM, fadeAnimation: !RM, markerZoomAnimation: !RM })
+      .setView(small ? [34, -40] : [35, -20], small ? 1 : 2);
+    window.__imUwMap = map;
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", { maxZoom: 12 }).addTo(map);
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { maxZoom: 12 }).addTo(map);
+    regions = L.layerGroup().addTo(map);
+    skyLayer = L.layerGroup();
+    if (window.ResizeObserver) new ResizeObserver(function () { if (map) map.invalidateSize(); }).observe(el);
+    ensureLibs().then(function () {
+      cluster = L.markerClusterGroup({ chunkedLoading: true, showCoverageOnHover: false, spiderfyOnMaxZoom: true, maxClusterRadius: 46,
+        animate: !RM, iconCreateFunction: clusterIcon });
+      window.__imUwCluster = cluster;
+      heat = L.heatLayer([], { radius: 14, blur: 16, maxZoom: 7, minOpacity: 0.25,
+        gradient: { 0.2: "#16324a", 0.45: "#7eb6d4", 0.7: "#e0c35f", 0.9: "#ff8f73", 1: "#f4f8fb" } });
+      return Promise.all([getJSON(DATA_BASE + "meta.json"), getJSON(DATA_BASE + "skynow.json").catch(function () { return null; })]);
+    }).then(function (r) {
+      meta = r[0]; sky = r[1];
+      fillShapes(); syncYears(); render();
+      setInterval(function () { if (sky) setTxt("im-uw-age", ageTxt(sky.generated_utc)); }, 30000);
+    }).catch(function () { setTxt("im-uw-n", EM); $("im-uw-load").textContent = "DATEN NICHT ERREICHBAR"; });
+    setTimeout(function () { map.invalidateSize(); }, 80);
+    return true;
+  }
+  window.__imBootUfoWorld = function () { bindUI(); return bootMap(); };
+  function tryBoot(n) { if (window.__imBootUfoWorld()) return; if (n > 0) setTimeout(function () { tryBoot(n - 1); }, 250); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { tryBoot(40); }); else tryBoot(40);
+})();
+</script>
+<!-- IM-UFO-WORLD:END -->
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</body>
+</html>

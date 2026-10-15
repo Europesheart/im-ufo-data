@@ -1,0 +1,41 @@
+name: daily (GEIPAN + PURSUE)
+
+on:
+  schedule:
+    - cron: "41 4 * * *"        # once a day, 04:41 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commit
+  cancel-in-progress: false
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Optional browser for PURSUE (war.gov blocks plain HTTP clients)
+        continue-on-error: true
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Fetch + rebuild (fetchers keep the last file on 403/429 and never fail the job)
+        run: bash pipeline/run_daily.sh
+      - name: Commit if data changed
+        run: |
+          git config user.name  "im-ufo-data bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data-src docs/data
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git commit -m "daily: GEIPAN/PURSUE $(date -u +%Y-%m-%d)"
+          git pull --rebase --autostash origin main
+          git push
