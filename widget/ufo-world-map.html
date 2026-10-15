@@ -36,6 +36,19 @@
 .im-uw-chip:focus-visible, .im-uw-sel:focus-visible, .im-hud-ufow .im-hud-tabs button:focus-visible, .im-uw-range input:focus-visible { outline: 1px solid var(--hud-accent); outline-offset: 1px; }
 .im-uw-chip.im-uw-ifo[aria-pressed="true"] { border-color: var(--hud-accent); color: var(--hud-accent); background: rgba(200, 240, 74, 0.08); }
 .im-uw-sel { background: #0b1522; padding-right: 4px; }
+.im-uw-info {
+  margin: 0 2px 0 0; width: 18px; height: 18px; padding: 0; border: 1px solid rgba(126, 182, 212, 0.45); border-radius: 50%;
+  background: transparent; color: #dceaf4; font: italic 600 10px/16px "IBM Plex Serif", Georgia, serif; text-transform: none; letter-spacing: 0; cursor: pointer;
+}
+.im-uw-info[aria-expanded="true"] { border-color: var(--hud-accent); color: var(--hud-accent); }
+.im-uw-info:focus-visible { outline: 1px solid var(--hud-accent); outline-offset: 1px; }
+.im-uw-clsinfo {
+  position: relative; z-index: 6; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; padding: 4px 8px;
+  border-bottom: 1px solid var(--hud-edge); background: rgba(8, 16, 28, 0.92);
+  font-family: var(--font-data); font-size: 9px; letter-spacing: 0.08em; color: #dceaf4; overflow-wrap: break-word;
+}
+.im-uw-clsinfo b { font-weight: 600; margin-right: 3px; }
+.im-uw-clsinfo .im-uw-dot { color: rgba(197, 216, 232, 0.5); }
 .im-uw-sw { display: inline-block; width: 6px; height: 6px; margin-right: 5px; border-radius: 50%; vertical-align: middle; background: currentColor; }
 .im-uw-time { position: relative; z-index: 6; padding: 6px 10px 7px; border-top: 1px solid var(--hud-edge); background: rgba(8, 16, 28, 0.96); font-family: var(--font-data); font-size: 9px; letter-spacing: 0.1em; color: #dceaf4; }
 .im-uw-time[hidden] { display: none; }
@@ -83,12 +96,18 @@
 .im-uw-p-a { display: block; padding-top: 5px; border-top: 1px solid rgba(126, 182, 212, 0.22); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; letter-spacing: 0.04em; color: rgba(197, 216, 232, 0.86); }
 .im-uw-p-l { color: var(--hud-accent) !important; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; }
 .im-uw-c-a { color: #8fd3a8; } .im-uw-c-b { color: #9bb3c4; } .im-uw-c-c { color: #e0c35f; } .im-uw-c-d { color: #ff8f73; }
+@media screen and (min-width: 761px) { .im-uw-info { display: none; } }
 @media screen and (max-width: 760px) {
   .im-hud-ufow .im-uw-map { height: 380px; min-height: 300px; }
   .im-uw-ctl { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .im-uw-ctl::-webkit-scrollbar { display: none; }
   .im-uw-grp { flex-wrap: nowrap; flex: 0 0 auto; }
   .im-uw-chip, .im-uw-sel { min-height: 28px; }
+  .im-uw-info { width: 26px; height: 26px; line-height: 24px; font-size: 12px; }
+  .im-uw-clsinfo { display: none; padding: 6px 10px; font-size: 10px; line-height: 1.5; }
+  .im-uw-clsinfo.is-open { display: flex; }
+  .im-uw-clsinfo .im-uw-dot { display: none; }
+  .im-uw-clsinfo > span { flex: 0 0 100%; }
   .im-hud-ufow .im-hud-tabs button { padding: 8px 4px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -117,10 +136,11 @@
     </div>
     <div class="im-uw-grp" data-im-uw-arch="1">
       <span class="im-uw-lbl">CLASS</span>
-      <button type="button" class="im-uw-chip" data-im-uw-cls="A" aria-pressed="true" title="GEIPAN A: clearly identified">A</button>
-      <button type="button" class="im-uw-chip" data-im-uw-cls="B" aria-pressed="true" title="GEIPAN B: probably identified">B</button>
-      <button type="button" class="im-uw-chip" data-im-uw-cls="C" aria-pressed="true" title="GEIPAN C: not enough data">C</button>
-      <button type="button" class="im-uw-chip" data-im-uw-cls="D" aria-pressed="true" title="GEIPAN D: unexplained after investigation">D</button>
+      <button type="button" class="im-uw-info" id="im-uw-info" aria-expanded="false" aria-controls="im-uw-clsinfo" title="What do classes A/B/C/D mean?" aria-label="Explain GEIPAN classes A, B, C, D">i</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="A" aria-pressed="true" title="GEIPAN class A (France only): phenomenon fully identified after investigation" aria-label="GEIPAN class A (France only): phenomenon fully identified after investigation">A</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="B" aria-pressed="true" title="GEIPAN class B (France only): phenomenon probably identified after investigation" aria-label="GEIPAN class B (France only): phenomenon probably identified after investigation">B</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="C" aria-pressed="true" title="GEIPAN class C (France only): phenomenon unidentified due to lack of data or information" aria-label="GEIPAN class C (France only): phenomenon unidentified due to lack of data or information">C</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="D" aria-pressed="true" title="GEIPAN class D (France only): phenomenon unidentified after investigation" aria-label="GEIPAN class D (France only): phenomenon unidentified after investigation">D</button>
     </div>
     <div class="im-uw-grp" data-im-uw-arch="1">
       <label class="im-uw-lbl" for="im-uw-shape">SHAPE</label>
@@ -137,6 +157,13 @@
       <button type="button" class="im-uw-chip im-uw-ifo" id="im-uw-ifo" aria-pressed="false" title="Hides cases officially classed as explained (GEIPAN A/B, AARO resolved)">HIDE IFOs</button>
       <button type="button" class="im-uw-chip" id="im-uw-heat" aria-pressed="false">HEATMAP</button>
     </div>
+  </div>
+  <div class="im-uw-clsinfo" id="im-uw-clsinfo" data-im-uw-arch="1" role="note">
+    <span class="im-uw-lbl">CLASS (GEIPAN, FRANCE ONLY):</span>
+    <span><b class="im-uw-c-a">A</b> identified</span><span class="im-uw-dot">&middot;</span>
+    <span><b class="im-uw-c-b">B</b> likely identified</span><span class="im-uw-dot">&middot;</span>
+    <span><b class="im-uw-c-c">C</b> insufficient data</span><span class="im-uw-dot">&middot;</span>
+    <span><b class="im-uw-c-d">D</b> unexplained</span>
   </div>
   <div class="im-uw-map" id="im-uw-map" aria-label="World map of sightings"></div>
   <div class="im-uw-time" id="im-uw-time">
@@ -449,6 +476,15 @@
     clearTimeout(yrTimer); yrTimer = setTimeout(render, 180);
   }
   function bindUI() {
+    var info = $("im-uw-info"), clsInfo = $("im-uw-clsinfo");
+    if (info && clsInfo && !info.__imUw) {
+      info.__imUw = 1;
+      info.addEventListener("click", function () {
+        var open = !clsInfo.classList.contains("is-open");
+        clsInfo.classList.toggle("is-open", open); info.setAttribute("aria-expanded", open ? "true" : "false");
+        if (window.__imUwMap) setTimeout(function () { window.__imUwMap.invalidateSize(); }, 60);
+      });
+    }
     var box = $("im-hud-ufow");
     if (!box || box.getAttribute("data-ui") === "1") return;
     box.setAttribute("data-ui", "1");
