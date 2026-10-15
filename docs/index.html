@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>UFO / UAP Weltkarte &middot; Information Machine (Preview)</title>
+<title>UFO World Map &middot; Information Machine</title>
 <link rel="preconnect" href="https://server.arcgisonline.com">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="./hud.css">
@@ -97,54 +97,54 @@
 </style>
 <div class="im-hud im-hud-ufow" id="im-hud-ufow">
   <div class="im-hud-bar">
-    <span class="im-hud-brand">UFO &middot; UAP</span>
-    <span class="im-hud-live">WELT</span>
+    <span class="im-hud-brand">UFO</span>
+    <span class="im-hud-live">WORLD</span>
     <span class="im-hud-meta" id="im-uw-meta">GEIPAN &middot; BLUE BOOK &middot; PURSUE &middot; AARO</span>
   </div>
-  <div class="im-hud-tabs" role="tablist" aria-label="Zeitfenster">
+  <div class="im-hud-tabs" role="tablist" aria-label="Time window">
     <button type="button" role="tab" data-im-uw-tab="24h" aria-selected="false">24H</button>
     <button type="button" role="tab" data-im-uw-tab="7d" aria-selected="false">7D</button>
     <button type="button" role="tab" data-im-uw-tab="30d" aria-selected="false">30D</button>
-    <button type="button" role="tab" class="is-on" data-im-uw-tab="archiv" aria-selected="true">ARCHIV</button>
+    <button type="button" role="tab" class="is-on" data-im-uw-tab="archiv" aria-selected="true">ARCHIVE</button>
   </div>
   <div class="im-uw-ctl" id="im-uw-ctl">
     <div class="im-uw-grp" data-im-uw-arch="1">
-      <span class="im-uw-lbl">QUELLE</span>
+      <span class="im-uw-lbl">SOURCE</span>
       <button type="button" class="im-uw-chip" data-im-uw-src="geipan" aria-pressed="true"><i class="im-uw-sw" style="color:#7eb6d4"></i>GEIPAN</button>
       <button type="button" class="im-uw-chip" data-im-uw-src="nara" aria-pressed="true"><i class="im-uw-sw" style="color:#e0c35f"></i>BLUE BOOK</button>
       <button type="button" class="im-uw-chip" data-im-uw-src="pursue" aria-pressed="true"><i class="im-uw-sw" style="color:#ff8f73"></i>PURSUE</button>
       <button type="button" class="im-uw-chip" data-im-uw-src="aaro" aria-pressed="true"><i class="im-uw-sw" style="color:#f4a0c0"></i>AARO</button>
     </div>
     <div class="im-uw-grp" data-im-uw-arch="1">
-      <span class="im-uw-lbl">KLASSE</span>
-      <button type="button" class="im-uw-chip" data-im-uw-cls="A" aria-pressed="true" title="GEIPAN A: eindeutig identifiziert">A</button>
-      <button type="button" class="im-uw-chip" data-im-uw-cls="B" aria-pressed="true" title="GEIPAN B: wahrscheinlich identifiziert">B</button>
-      <button type="button" class="im-uw-chip" data-im-uw-cls="C" aria-pressed="true" title="GEIPAN C: zu wenig Daten">C</button>
-      <button type="button" class="im-uw-chip" data-im-uw-cls="D" aria-pressed="true" title="GEIPAN D: nach Untersuchung unerkl&auml;rt">D</button>
+      <span class="im-uw-lbl">CLASS</span>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="A" aria-pressed="true" title="GEIPAN A: clearly identified">A</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="B" aria-pressed="true" title="GEIPAN B: probably identified">B</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="C" aria-pressed="true" title="GEIPAN C: not enough data">C</button>
+      <button type="button" class="im-uw-chip" data-im-uw-cls="D" aria-pressed="true" title="GEIPAN D: unexplained after investigation">D</button>
     </div>
     <div class="im-uw-grp" data-im-uw-arch="1">
-      <label class="im-uw-lbl" for="im-uw-shape">FORM</label>
-      <select class="im-uw-sel" id="im-uw-shape"><option value="">ALLE</option></select>
-      <label class="im-uw-lbl" for="im-uw-origin">HERKUNFT</label>
+      <label class="im-uw-lbl" for="im-uw-shape">SHAPE</label>
+      <select class="im-uw-sel" id="im-uw-shape"><option value="">ALL</option></select>
+      <label class="im-uw-lbl" for="im-uw-origin">ORIGIN</label>
       <select class="im-uw-sel" id="im-uw-origin">
-        <option value="">ALLE</option>
-        <option value="official">AMTLICH</option>
-        <option value="civil">ZIVIL</option>
+        <option value="">ALL</option>
+        <option value="official">OFFICIAL</option>
+        <option value="civil">CIVILIAN</option>
       </select>
     </div>
-    <div class="im-uw-live" id="im-uw-live">SKY NOW &mdash; STAND: <span id="im-uw-stamp">&mdash;</span></div>
+    <div class="im-uw-live" id="im-uw-live">SKY NOW &mdash; AS OF: <span id="im-uw-stamp">&mdash;</span></div>
     <div class="im-uw-grp" data-im-uw-arch="1">
-      <button type="button" class="im-uw-chip im-uw-ifo" id="im-uw-ifo" aria-pressed="false" title="Blendet F&auml;lle aus, die amtlich als erkl&auml;rt gelten (GEIPAN A/B, AARO aufgekl&auml;rt)">IFOs ausblenden</button>
+      <button type="button" class="im-uw-chip im-uw-ifo" id="im-uw-ifo" aria-pressed="false" title="Hides cases officially classed as explained (GEIPAN A/B, AARO resolved)">HIDE IFOs</button>
       <button type="button" class="im-uw-chip" id="im-uw-heat" aria-pressed="false">HEATMAP</button>
     </div>
   </div>
-  <div class="im-uw-map" id="im-uw-map" aria-label="Weltkarte der Sichtungen"></div>
+  <div class="im-uw-map" id="im-uw-map" aria-label="World map of sightings"></div>
   <div class="im-uw-time" id="im-uw-time">
-    <div class="im-uw-trow"><span>ZEITRAUM</span><b id="im-uw-yrs">&mdash;</b><span id="im-uw-load" class="im-uw-status">&nbsp;</span></div>
+    <div class="im-uw-trow"><span>TIME RANGE</span><b id="im-uw-yrs">&mdash;</b><span id="im-uw-load" class="im-uw-status">&nbsp;</span></div>
     <div class="im-uw-range">
       <canvas id="im-uw-hist" aria-hidden="true"></canvas>
-      <input type="range" id="im-uw-y0" min="1937" max="2026" step="1" value="2000" aria-label="Von Jahr">
-      <input type="range" id="im-uw-y1" min="1937" max="2026" step="1" value="2026" aria-label="Bis Jahr">
+      <input type="range" id="im-uw-y0" min="1937" max="2026" step="1" value="2000" aria-label="From year">
+      <input type="range" id="im-uw-y1" min="1937" max="2026" step="1" value="2026" aria-label="To year">
     </div>
     <div class="im-uw-ticks"><span>1937</span><span>1950</span><span>1970</span><span>1990</span><span>2010</span><span>2026</span></div>
   </div>
@@ -152,33 +152,33 @@
     <span><i class="im-uw-sw" style="color:#7eb6d4"></i>GEIPAN (FR)</span>
     <span><i class="im-uw-sw" style="color:#e0c35f"></i>BLUE BOOK 1947&ndash;69</span>
     <span><i class="im-uw-sw" style="color:#ff8f73"></i>PURSUE / AARO (REGION)</span>
-    <span><i class="im-uw-sw" style="color:#c8f04a"></i>STARLINK SICHTBAR</span>
-    <span><i class="im-uw-sw" style="color:#f4f8fb"></i>RAKETENSTART</span>
-    <span><i class="im-uw-sw" style="color:#ffa04a"></i>BOLIDE</span>
-    <span>RING = KLASSE D / UNGEL&Ouml;ST</span>
+    <span><i class="im-uw-sw" style="color:#c8f04a"></i>STARLINK VISIBLE</span>
+    <span><i class="im-uw-sw" style="color:#f4f8fb"></i>ROCKET LAUNCH</span>
+    <span><i class="im-uw-sw" style="color:#ffa04a"></i>FIREBALL</span>
+    <span>RING = CLASS D / UNRESOLVED</span>
   </div>
   <div class="im-hud-readout">
-    <div><span class="im-hud-k" id="im-uw-nk">F&Auml;LLE</span><span class="im-hud-v" id="im-uw-n">&mdash;</span></div>
-    <div><span class="im-hud-k" id="im-uw-uk">UNERKL&Auml;RT</span><span class="im-hud-v" id="im-uw-u" title="GEIPAN D + amtlich ungel&ouml;st (PURSUE/AARO)">&mdash;</span></div>
-    <div><span class="im-hud-k" id="im-uw-qk">IFO-QUOTE</span><span class="im-hud-v" id="im-uw-q" title="Anteil amtlich erkl&auml;rter F&auml;lle unter den F&auml;llen mit Bewertung">&mdash;</span></div>
+    <div><span class="im-hud-k" id="im-uw-nk">CASES</span><span class="im-hud-v" id="im-uw-n">&mdash;</span></div>
+    <div><span class="im-hud-k" id="im-uw-uk">UNEXPLAINED</span><span class="im-hud-v" id="im-uw-u" title="GEIPAN D + officially unresolved (PURSUE/AARO)">&mdash;</span></div>
+    <div><span class="im-hud-k" id="im-uw-qk">IFO RATE</span><span class="im-hud-v" id="im-uw-q" title="Share of officially explained cases among rated cases">&mdash;</span></div>
   </div>
   <div class="im-hud-readout">
-    <div><span class="im-hud-k">STARLINK</span><span class="im-hud-v" id="im-uw-sl" title="Satelliten in der Sonne &uuml;ber dunklem Boden, Stand der Daten">&mdash;</span></div>
-    <div><span class="im-hud-k">STARTS</span><span class="im-hud-v" id="im-uw-ls" title="Raketenstarts im Fenster: vergangen &middot; geplant">&mdash;</span></div>
-    <div><span class="im-hud-k">AGE</span><span class="im-hud-v" id="im-uw-age" title="Alter der Sky-Now-Daten">&mdash;</span></div>
+    <div><span class="im-hud-k">STARLINK</span><span class="im-hud-v" id="im-uw-sl" title="Satellites in sunlight above dark ground, at data time">&mdash;</span></div>
+    <div><span class="im-hud-k">LAUNCHES</span><span class="im-hud-v" id="im-uw-ls" title="Rocket launches in window: past &middot; upcoming">&mdash;</span></div>
+    <div><span class="im-hud-k">AGE</span><span class="im-hud-v" id="im-uw-age" title="Age of the Sky Now data">&mdash;</span></div>
   </div>
   <div class="im-uw-attr" id="im-uw-attr">
-    <strong>Quellen:</strong> &copy; CNES/GEIPAN &ndash; Quelle: geipan.fr, Bildungszweck &middot; Source: U.S. National Archives (NARA) &middot;
-    U.S. Department of War: PURSUE &amp; AARO (Region, keine exakten Orte) &middot; CelesTrak &middot; Launch Library 2 (The Space Devs) &middot;
-    NASA/JPL CNEOS &middot; Geocoding GeoNames (CC BY 4.0) &middot; Karte &copy; Esri.
-    Zivile Melde-Datenbanken (NUFORC, MUFON u. a.) sind aus Lizenzgr&uuml;nden nicht enthalten.
+    <strong>Sources:</strong> &copy; CNES/GEIPAN &ndash; source: geipan.fr, educational use &middot; Source: U.S. National Archives (NARA) &middot;
+    U.S. Department of War: PURSUE &amp; AARO (region level, no exact locations) &middot; CelesTrak &middot; Launch Library 2 (The Space Devs) &middot;
+    NASA/JPL CNEOS &middot; Geocoding GeoNames (CC BY 4.0) &middot; Map &copy; Esri.
+    Civilian reporting databases (NUFORC, MUFON and others) are not included for licensing reasons.
   </div>
 </div>
 <script>
 (function () {
-  /* >>>>>>>>>> DATA_BASE: EINZIGE ZEILE ZUM ANPASSEN – <GITHUB_USER> durch deinen GitHub-Benutzernamen ersetzen <<<<<<<<<< */
+  /* >>>>>>>>>> DATA_BASE: THE ONLY LINE TO EDIT - replace <GITHUB_USER> with your GitHub user name <<<<<<<<<< */
   var DATA_BASE = "https://<GITHUB_USER>.github.io/im-ufo-data/data/";
-  if (DATA_BASE.indexOf("<") !== -1) DATA_BASE = "./data/"; /* Platzhalter noch drin -> relative Daten (lokale Preview / Pages-Testseite) */
+  if (DATA_BASE.indexOf("<") !== -1) DATA_BASE = "./data/"; /* placeholder still present -> relative data (local preview / Pages test page) */
   var EM = "\u2014", DOT = " \u00b7 ";
   var LIBS = [
     ["https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js", function () { return window.L && L.markerClusterGroup; }],
@@ -190,8 +190,8 @@
     pursue: { label: "PURSUE (U.S. DoW)", color: "#ff8f73" },
     aaro: { label: "AARO (U.S. DoW)", color: "#f4a0c0" }
   };
-  var SHAPE_DE = { sphere: "Kugel", circle: "Kreis", oval: "Oval", light: "Lichtpunkt", lights: "Mehrere Lichter", beam: "Strahl",
-    cone: "Kegel", cylinder: "Zylinder", cigar: "Zigarre", triangle: "Dreieck", rectangle: "Rechteck", disc: "Scheibe" };
+  var SHAPE_EN = { sphere: "Sphere", circle: "Circle", oval: "Oval", light: "Point of light", lights: "Multiple lights", beam: "Beam",
+    cone: "Cone", cylinder: "Cylinder", cigar: "Cigar", triangle: "Triangle", rectangle: "Rectangle", disc: "Disc" };
   var IFO_STATUS = { identified: 1, probable: 1 };
   var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var st = { tab: "archiv", y0: 2000, y1: 2026, src: { geipan: 1, nara: 1, pursue: 1, aaro: 1 }, cls: { A: 1, B: 1, C: 1, D: 1 },
@@ -217,8 +217,9 @@
   function fmtDate(p) {
     var d = p.date_utc || (p.year ? String(p.year) : ""); if (!d) return EM;
     var a = d.split("-");
-    if (a.length === 3) return a[2].slice(0, 2) + "." + a[1] + "." + a[0];
-    if (a.length === 2) return a[1] + "/" + a[0];
+    var MO = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"], mo = MO[+a[1] - 1];
+    if (a.length === 3 && mo) return mo + " " + (+a[2].slice(0, 2)) + ", " + a[0];
+    if (a.length === 2 && mo) return mo + " " + a[0];
     return a[0];
   }
 
@@ -254,19 +255,19 @@
     var c = p.classification || {}, s = SRC[p.source] || { label: p.source };
     var cc = p.source === "geipan" ? "im-uw-c-" + String(c.value || "").toLowerCase() : (isOpen(p) ? "im-uw-c-d" : "im-uw-c-a");
     var bits = [];
-    if (p.shape) bits.push("FORM " + (SHAPE_DE[p.shape] || p.shape));
-    if (p.witnesses) bits.push(p.witnesses + (p.witnesses === 1 ? " ZEUGNIS" : " ZEUGNISSE"));
-    if (p.geo_precision_km) bits.push("LAGE \u00b1" + p.geo_precision_km + " KM");
+    if (p.shape) bits.push("SHAPE " + (SHAPE_EN[p.shape] || p.shape));
+    if (p.witnesses) bits.push(p.witnesses + (p.witnesses === 1 ? " TESTIMONY" : " TESTIMONIES"));
+    if (p.geo_precision_km) bits.push("LOCATION \u00b1" + p.geo_precision_km + " KM");
     if (p.agency) bits.push(String(p.agency).toUpperCase());
     var attr = (meta && meta.attributions && meta.attributions[p.source]) || p.license || "";
     return '<span class="im-uw-p-k">' + esc(s.label) + DOT + esc(fmtDate(p)) + "</span>" +
       '<span class="im-uw-p-h">' + esc(p.title || p.location_name || EM) + "</span>" +
       (c.label ? '<span class="im-uw-p-c ' + cc + '">' + esc(c.label) + "</span>" : "") +
-      (c.explanation ? '<span class="im-uw-p-m">ERKL\u00c4RUNG: ' + esc(c.explanation) + "</span>" : "") +
+      (c.explanation ? '<span class="im-uw-p-m">EXPLANATION: ' + esc(c.explanation) + (c.explanation_en && c.explanation_en !== c.explanation ? " (" + esc(c.explanation_en) + ")" : "") + "</span>" : "") +
       (p.summary ? '<span class="im-uw-p-s">' + esc(p.summary) + "</span>" : "") +
-      (p.title && p.location_name ? '<span class="im-uw-p-m">ORT: ' + esc(p.location_name) + "</span>" : "") +
+      (p.title && p.location_name ? '<span class="im-uw-p-m">PLACE: ' + esc(p.location_name) + "</span>" : "") +
       (bits.length ? '<span class="im-uw-p-m">' + esc(bits.join(DOT)) + "</span>" : "") +
-      (p.source_url ? '<a class="im-uw-p-l" href="' + esc(p.source_url) + '" target="_blank" rel="noopener">QUELLE \u00d6FFNEN \u2197</a>' : "") +
+      (p.source_url ? '<a class="im-uw-p-l" href="' + esc(p.source_url) + '" target="_blank" rel="noopener">OPEN SOURCE \u2197</a>' : "") +
       '<span class="im-uw-p-a">' + esc(attr) + "</span>";
   }
   function markerFor(f) {
@@ -294,7 +295,7 @@
   function renderArchive() {
     var seq = ++renderSeq, ds = decadesFor(st.y0, st.y1);
     var pending = ds.filter(function (d) { return !dec[d]; });
-    $("im-uw-load").textContent = pending.length ? "LADE " + pending.map(function (d) { return d + "ER"; }).join(" ") + "\u2026" : "";
+    $("im-uw-load").textContent = pending.length ? "LOADING " + pending.map(function (d) { return d + "S"; }).join(" ") + "\u2026" : "";
     return Promise.all(ds.map(loadDecade)).then(function (lists) {
       if (seq !== renderSeq || st.tab !== "archiv") return;
       var ms = [], hp = [], rg = {}, n = 0, open = 0, rated = 0, ifo = 0;
@@ -315,8 +316,8 @@
       });
       if (st.heat) { heat.setLatLngs(hp); if (map.hasLayer(cluster)) map.removeLayer(cluster); if (!map.hasLayer(heat)) heat.addTo(map); }
       else { if (map.hasLayer(heat)) map.removeLayer(heat); if (!map.hasLayer(cluster)) cluster.addTo(map); cluster.addLayers(ms); }
-      setTxt("im-uw-n", n.toLocaleString("de-CH"));
-      setTxt("im-uw-u", open.toLocaleString("de-CH"), open ? "im-hud-warm" : "");
+      setTxt("im-uw-n", n.toLocaleString("en-US"));
+      setTxt("im-uw-u", open.toLocaleString("en-US"), open ? "im-hud-warm" : "");
       setTxt("im-uw-q", rated ? Math.round(100 * ifo / rated) + "%" : EM);
       $("im-uw-load").textContent = "";
     });
@@ -329,14 +330,14 @@
     var nPast = 0, nNext = 0, nFb = 0;
     (sky.starlink.points || []).forEach(function (q) {
       L.circleMarker([q[1], q[0]], { radius: 1.8, stroke: false, fillColor: "#c8f04a", fillOpacity: 0.85 })
-        .bindTooltip(esc(q[2]) + "<br/>SICHTBAR M\u00d6GLICH", { className: "im-hud-tip", direction: "top" }).addTo(skyLayer);
+        .bindTooltip(esc(q[2]) + "<br/>POSSIBLY VISIBLE", { className: "im-hud-tip", direction: "top" }).addTo(skyLayer);
     });
     (sky.starlink.fresh_trains || []).forEach(function (t) {
       var segs = [[]], prev = null;
       t.track.forEach(function (c) { if (prev && Math.abs(c[0] - prev[0]) > 180) segs.push([]); segs[segs.length - 1].push([c[1], c[0]]); prev = c; });
       segs.forEach(function (s) {
         L.polyline(s, { color: "#c8f04a", weight: 1.2, opacity: 0.7, dashArray: "5 4" })
-          .bindTooltip("STARLINK-ZUG " + esc(t.launch) + DOT + t.n + " SAT.<br/>BAHN \u00b145 MIN", { className: "im-hud-tip", sticky: true }).addTo(skyLayer);
+          .bindTooltip("STARLINK TRAIN " + esc(t.launch) + DOT + t.n + " SATS<br/>TRACK \u00b145 MIN", { className: "im-hud-tip", sticky: true }).addTo(skyLayer);
       });
     });
     (sky.launches.features || []).forEach(function (f) {
@@ -344,11 +345,11 @@
       var past = Date.parse(p.net) <= Date.now(); if (past) nPast++; else nNext++;
       var g = f.geometry.coordinates;
       L.circleMarker([g[1], g[0]], { radius: 5, color: "#f4f8fb", weight: 1.4, fillColor: past ? "#f4f8fb" : "#0b1522", fillOpacity: 0.9 })
-        .bindPopup('<span class="im-uw-p-k">' + (past ? "START" : "GEPLANT") + DOT + esc(new Date(p.net).toLocaleString("de-CH", { timeZone: "Europe/Zurich", dateStyle: "short", timeStyle: "short" })) + "</span>" +
+        .bindPopup('<span class="im-uw-p-k">' + (past ? "LAUNCHED" : "UPCOMING") + DOT + esc(new Date(p.net).toLocaleString("en-US", { timeZone: "UTC", dateStyle: "medium", timeStyle: "short" }) + " UTC") + "</span>" +
           '<span class="im-uw-p-h">' + esc(p.name) + "</span>" +
           '<span class="im-uw-p-m">' + esc([p.provider, p.orbit, p.status].filter(Boolean).join(DOT)) + "</span>" +
           '<span class="im-uw-p-m">' + esc(p.pad || "") + "</span>" +
-          (p.starlink ? '<span class="im-uw-p-s">Frische Starlink-Z\u00fcge sind eine der h\u00e4ufigsten Ursachen f\u00fcr UFO-Meldungen.</span>' : "") +
+          (p.starlink ? '<span class="im-uw-p-s">Fresh Starlink trains are one of the most common causes of UFO reports.</span>' : "") +
           '<span class="im-uw-p-a">' + esc(meta ? meta.attributions.ll2 : "Launch Library 2") + "</span>", { maxWidth: 300 })
         .addTo(skyLayer);
     });
@@ -356,24 +357,24 @@
       var p = f.properties; if (!inWin(p.date_utc, days)) return; nFb++;
       var g = f.geometry.coordinates, e = Number(p.energy_kt) || 0.05;
       L.circleMarker([g[1], g[0]], { radius: Math.min(9, 3 + Math.log10(e * 100 + 1) * 2), color: "#ffa04a", weight: 1.2, fillColor: "#ffa04a", fillOpacity: 0.55 })
-        .bindPopup('<span class="im-uw-p-k">BOLIDE' + DOT + esc(p.date_utc.replace("T", " ").slice(0, 16)) + " UTC</span>" +
-          '<span class="im-uw-p-h">Feuerkugel (Meteor)</span>' +
-          '<span class="im-uw-p-m">' + esc(["ENERGIE " + (p.energy_kt || "?") + " KT", p.alt_km ? "H\u00d6HE " + p.alt_km + " KM" : "", p.vel_kms ? p.vel_kms + " KM/S" : ""].filter(Boolean).join(DOT)) + "</span>" +
-          '<a class="im-uw-p-l" href="https://cneos.jpl.nasa.gov/fireballs/" target="_blank" rel="noopener">QUELLE \u00d6FFNEN \u2197</a>' +
+        .bindPopup('<span class="im-uw-p-k">FIREBALL' + DOT + esc(p.date_utc.replace("T", " ").slice(0, 16)) + " UTC</span>" +
+          '<span class="im-uw-p-h">Fireball (bright meteor)</span>' +
+          '<span class="im-uw-p-m">' + esc(["IMPACT ENERGY " + (p.energy_kt || "?") + " KT", p.alt_km ? "ALTITUDE " + p.alt_km + " KM" : "", p.vel_kms ? p.vel_kms + " KM/S" : ""].filter(Boolean).join(DOT)) + "</span>" +
+          '<a class="im-uw-p-l" href="https://cneos.jpl.nasa.gov/fireballs/" target="_blank" rel="noopener">OPEN SOURCE \u2197</a>' +
           '<span class="im-uw-p-a">' + esc(meta ? meta.attributions.jpl : "NASA/JPL CNEOS") + "</span>", { maxWidth: 300 })
         .addTo(skyLayer);
     });
-    setTxt("im-uw-n", (nPast + nNext + nFb).toLocaleString("de-CH"));
-    setTxt("im-uw-u", nFb.toLocaleString("de-CH"), nFb ? "im-hud-warm" : "");
+    setTxt("im-uw-n", (nPast + nNext + nFb).toLocaleString("en-US"));
+    setTxt("im-uw-u", nFb.toLocaleString("en-US"), nFb ? "im-hud-warm" : "");
     setTxt("im-uw-q", String((sky.starlink.fresh_trains || []).length));
     setTxt("im-uw-ls", nPast + DOT + nNext, nNext ? "im-hud-ok" : "");
   }
   function skyReadouts() {
     if (!sky) return;
-    setTxt("im-uw-sl", sky.starlink.maybe_visible.toLocaleString("de-CH"), "im-hud-ok");
+    setTxt("im-uw-sl", sky.starlink.maybe_visible.toLocaleString("en-US"), "im-hud-ok");
     setTxt("im-uw-age", ageTxt(sky.generated_utc));
-    $("im-uw-stamp").textContent = new Date(sky.generated_utc).toLocaleString("de-CH", { timeZone: "Europe/Zurich", dateStyle: "short", timeStyle: "short" }) +
-      " (Z\u00dcRICH) \u00b7 STARLINK = IN DER SONNE \u00dcBER DUNKLEM BODEN \u00b7 GESTRICHELT = J\u00dcNGSTE STARLINK-Z\u00dcGE";
+    $("im-uw-stamp").textContent = new Date(sky.generated_utc).toLocaleString("en-US", { timeZone: "UTC", dateStyle: "medium", timeStyle: "short" }) + " UTC" +
+      " \u00b7 STARLINK = SUNLIT ABOVE DARK GROUND \u00b7 DASHED = NEWEST STARLINK TRAINS";
     if (st.tab === "archiv") {
       var p = 0, n = 0;
       (sky.launches.features || []).forEach(function (f) { if (inWin(f.properties.net, 30)) { if (Date.parse(f.properties.net) <= Date.now()) p++; else n++; } });
@@ -402,9 +403,9 @@
     var arch = st.tab === "archiv";
     $("im-uw-time").hidden = !arch;
     $("im-hud-ufow").classList.toggle("is-live", !arch);
-    $("im-uw-nk").textContent = arch ? "F\u00c4LLE" : "EREIGNISSE";
-    $("im-uw-uk").textContent = arch ? "UNERKL\u00c4RT" : "BOLIDE";
-    $("im-uw-qk").textContent = arch ? "IFO-QUOTE" : "STARLINK-Z\u00dcGE";
+    $("im-uw-nk").textContent = arch ? "CASES" : "EVENTS";
+    $("im-uw-uk").textContent = arch ? "UNEXPLAINED" : "FIREBALLS";
+    $("im-uw-qk").textContent = arch ? "IFO RATE" : "STARLINK TRAINS";
     if (arch) {
       if (map.hasLayer(skyLayer)) map.removeLayer(skyLayer);
       if (!map.hasLayer(regions)) regions.addTo(map);
@@ -414,7 +415,7 @@
       renderSeq++;
       [cluster, heat, regions].forEach(function (l) { if (map.hasLayer(l)) map.removeLayer(l); });
       if (!map.hasLayer(skyLayer)) skyLayer.addTo(map);
-      $("im-uw-meta").textContent = "SKY NOW \u00b7 STARLINK \u00b7 STARTS \u00b7 BOLIDE";
+      $("im-uw-meta").textContent = "SKY NOW \u00b7 STARLINK \u00b7 LAUNCHES \u00b7 FIREBALLS";
       renderSky(); skyReadouts(); refreshLaunchesLive();
     }
   }
@@ -478,11 +479,11 @@
   function fillShapes() {
     var sel = $("im-uw-shape"); if (!sel || !meta || sel.options.length > 1) return;
     Object.keys(meta.shapes || {}).forEach(function (k) {
-      var o = document.createElement("option"); o.value = k; o.textContent = (SHAPE_DE[k] || k).toUpperCase() + " (" + meta.shapes[k] + ")"; sel.appendChild(o);
+      var o = document.createElement("option"); o.value = k; o.textContent = (SHAPE_EN[k] || k).toUpperCase() + " (" + meta.shapes[k] + ")"; sel.appendChild(o);
     });
     var org = $("im-uw-origin"), tot = 0, k2; for (k2 in meta.counts) tot += meta.counts[k2];
-    org.options[1].textContent = "AMTLICH (" + tot + ")";
-    org.options[2].textContent = "ZIVIL (0)";
+    org.options[1].textContent = "OFFICIAL (" + tot.toLocaleString("en-US") + ")";
+    org.options[2].textContent = "CIVILIAN (0)";
   }
 
   function bootMap() {
@@ -512,7 +513,7 @@
       meta = r[0]; sky = r[1];
       fillShapes(); syncYears(); render();
       setInterval(function () { if (sky) setTxt("im-uw-age", ageTxt(sky.generated_utc)); }, 30000);
-    }).catch(function () { setTxt("im-uw-n", EM); $("im-uw-load").textContent = "DATEN NICHT ERREICHBAR"; });
+    }).catch(function () { setTxt("im-uw-n", EM); $("im-uw-load").textContent = "DATA UNAVAILABLE"; });
     setTimeout(function () { map.invalidateSize(); }, 80);
     return true;
   }

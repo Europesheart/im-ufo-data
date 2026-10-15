@@ -1,6 +1,6 @@
 # im-ufo-data
 
-Data hosting for the **UFO / UAP world map** widget on information-machine.blogspot.com.
+Data hosting for the **UFO world map** widget on information-machine.blogspot.com.
 GitHub Pages serves `docs/` → `https://europesheart.github.io/im-ufo-data/`. GitHub Actions refreshes the data.
 
 | Path | What |
@@ -41,7 +41,7 @@ GitHub Pages sends `Access-Control-Allow-Origin: *`; checked 2026-10-15 on `page
 So `fetch()` from `information-machine.blogspot.com` works without a proxy.
 
 ## Sources & rights
-- **GEIPAN:** © CNES/GEIPAN, *Tous droits réservés*. Used with the note "Quelle: geipan.fr, Bildungszweck"; this is the owner's decision, not a licence.
+- **GEIPAN:** © CNES/GEIPAN, *Tous droits réservés*. Used with the note "© CNES/GEIPAN – source: geipan.fr, educational use"; this is the owner's decision, not a licence.
 - **NARA:** republish with attribution.
 - **PURSUE / AARO:** U.S. federal works.
 - **CelesTrak · Launch Library 2 · NASA/JPL CNEOS · GeoNames:** CC BY 4.0.

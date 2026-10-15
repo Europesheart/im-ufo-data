@@ -98,9 +98,9 @@ def pursue(stats):
             geo_precision_km=km, media=str(r["Type"]).strip().lower() or None,
             summary=clip(r["Description Blurb"]) if str(r["Description Blurb"]) != "nan" else clip(title),
             title=clip(title, 120), agency=str(r["Agency"]).strip(), released=str(r["Release Date"]).strip(),
-            classification={"scheme": "PURSUE", "value": "unresolved", "label": "PURSUE \u2013 ungel\u00f6st (laut DoW)",
+            classification={"scheme": "PURSUE", "value": "unresolved", "label": "PURSUE \u2013 unresolved (per DoW)",
                             "explanation": None},
-            ifo={"status": "unresolved", "flags": [], "score": None, "basis": "PURSUE ver\u00f6ffentlicht nur ungel\u00f6ste F\u00e4lle"},
+            ifo={"status": "unresolved", "flags": [], "score": None, "basis": "PURSUE publishes unresolved cases only"},
             kind="region", license=ATTR["aaro"].replace("AARO", "PURSUE")))
         stats["pursue_mapped"] += 1
     return out
@@ -109,33 +109,33 @@ def pursue(stats):
 AARO = [
  ("PR-018", "Unresolved UAP Report, Europe 2024", 2024, "2024", "year", "europe", "unresolved", None),
  ("PR-017", "Unresolved UAP Report, Europe 2024", 2024, "2024", "year", "europe", "unresolved", None),
- ("PR-016", "Resolved as Birds, Europe 2023", 2023, "2023", "year", "europe", "identified", "V\u00f6gel"),
+ ("PR-016", "Resolved as Birds, Europe 2023", 2023, "2023", "year", "europe", "identified", "birds"),
  ("PR-015", "Unresolved UAP Report, Europe 2022", 2022, "2022", "year", "europe", "unresolved", None),
  ("PR-014", "Unresolved UAP Report, Europe 2022", 2022, "2022", "year", "europe", "unresolved", None),
  ("PR-013", "Unresolved UAP Report, Europe 2022", 2022, "2022", "year", "europe", "unresolved", None),
  ("PR-012", "Unresolved UAP Report, Europe 2022", 2022, "2022", "year", "europe", "unresolved", None),
  ("PR-011", "UAP Report Undergoing Analysis, Europe 2021", 2021, "2021", "year", "europe", "pending", None),
- ("PR-010", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "Ballon"),
- ("PR-009", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "Ballon"),
+ ("PR-010", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "balloon"),
+ ("PR-009", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "balloon"),
  ("PR-008", "Unresolved UAP Report, Europe 2022", 2022, "2022", "year", "europe", "unresolved", None),
- ("PR-007", "UAP Report Closed as Not Anomalous, Europe 2022", 2022, "2022", "year", "europe", "identified", "nicht anomal (Flugzeug-typisch)"),
- ("PR-006", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "Ballon"),
- ("PR-005", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "Ballon"),
- ("PR-004", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "Ballon"),
- ("PR-003", "Resolved as Migratory Birds, Africa 2023 (Seitentext widerspr\u00fcchlich)", 2023, "2023", "year", "africa", "identified", "Zugv\u00f6gel (laut Titel; Beschreibung nennt den Fall ungel\u00f6st)"),
- ("PR-002", "Resolved as Migratory Birds, Africa 2024", 2024, "2024", "year", "africa", "identified", "Zugv\u00f6gel"),
+ ("PR-007", "UAP Report Closed as Not Anomalous, Europe 2022", 2022, "2022", "year", "europe", "identified", "not anomalous (aircraft-like performance)"),
+ ("PR-006", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "balloon"),
+ ("PR-005", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "balloon"),
+ ("PR-004", "UAP Report Resolved as a Balloon, Europe 2022", 2022, "2022", "year", "europe", "identified", "balloon"),
+ ("PR-003", "Resolved as Migratory Birds, Africa 2023 (page text contradictory)", 2023, "2023", "year", "africa", "identified", "migratory birds (per title; the description calls the case unresolved)"),
+ ("PR-002", "Resolved as Migratory Birds, Africa 2024", 2024, "2024", "year", "africa", "identified", "migratory birds"),
  ("PR-001", "Unresolved UAP Report, Africa 2022", 2022, "2022", "year", "africa", "unresolved", None),
- ("ME-RB-2024", "Middle East Red Balloon 2024", 2024, "2024", "year", "middle east", "identified", "Folienballon"),
+ ("ME-RB-2024", "Middle East Red Balloon 2024", 2024, "2024", "year", "middle east", "identified", "foil balloon"),
  ("ME-2024", "Unresolved UAP Report: Middle East 2024", 2024, "2024", "year", "middle east", "unresolved", None),
  ("ME-2023", "Unresolved UAP Report: Middle East 2023", 2023, "2023", "year", "middle east", "unresolved", None),
- ("AL-TAQADDUM", "Al Taqaddum Object (Irak)", 2017, "2017-10-23", "day", (33.34, 43.60, 10), "identified", "Ballon-Cluster"),
- ("MT-ETNA", "Mt. Etna Object (Mittelmeer s\u00fcdl. Sizilien)", 2018, "2018-12", "month", (36.9, 14.9, 150), "identified", "Ballon (moderate confidence)"),
- ("PUERTO-RICO", "Puerto Rico Object (Aguadilla)", 2013, "2013-04-26", "day", (18.49, -67.13, 10), "identified", "zwei Objekte mit Windgeschwindigkeit, nicht anomal"),
- ("GOFAST", "GoFast (Atlantik vor Florida)", 2015, "2015-01", "month", (30.0, -79.0, 300), "identified", "nicht anomal (AARO Case Resolution)"),
+ ("AL-TAQADDUM", "Al Taqaddum Object (Iraq)", 2017, "2017-10-23", "day", (33.34, 43.60, 10), "identified", "balloon cluster"),
+ ("MT-ETNA", "Mt. Etna Object (Mediterranean south of Sicily)", 2018, "2018-12", "month", (36.9, 14.9, 150), "identified", "balloon (moderate confidence)"),
+ ("PUERTO-RICO", "Puerto Rico Object (Aguadilla)", 2013, "2013-04-26", "day", (18.49, -67.13, 10), "identified", "two objects moving at wind speed, not anomalous"),
+ ("GOFAST", "GoFast (Atlantic off Florida)", 2015, "2015-01", "month", (30.0, -79.0, 300), "identified", "not anomalous (AARO case resolution)"),
 ]
-AARO_SKIPPED = ["Eglin (kein Jahr auf der Seite)", "Southeast Asia Triangles (kein Jahr)", "Western United States (kein Jahr)",
-                "Atmospheric Wake (Region widerspr\u00fcchlich: Middle East/Mittelmeer vs. 'South Asian')",
-                "Middle East Object (kein Jahr)", "Navy 2021 Flyby (kein Ort)", "FLIR / Gimbal (weder Ort noch Jahr auf der Seite)"]
+AARO_SKIPPED = ["Eglin (no year on page)", "Southeast Asia Triangles (no year)", "Western United States (no year)",
+                "Atmospheric Wake (region contradictory: Middle East/Mediterranean vs. 'South Asian')",
+                "Middle East Object (no year)", "Navy 2021 Flyby (no location)", "FLIR / Gimbal (neither place nor year on page)"]
 
 def aaro(stats):
     out = []
@@ -146,10 +146,10 @@ def aaro(stats):
                else "https://www.aaro.mil/UAP-Cases/Official-UAP-Imagery/")
         out.append(feature(lo, la, id="aaro:" + cid, source="aaro", source_url=url, official=True,
             date_utc=date, date_precision=prec, year=y, location_name=loc, geo_precision_km=km, media="video",
-            summary=clip(("AARO " + cid + ": " if cid.startswith("PR-") else "AARO: ") + title + (" \u2013 Ergebnis: " + expl if expl else "")),
+            summary=clip(("AARO " + cid + ": " if cid.startswith("PR-") else "AARO: ") + title + (" \u2013 result: " + expl if expl else "")),
             title=title, agency="AARO",
-            classification={"scheme": "AARO", "value": status, "label": {"identified": "AARO \u2013 aufgekl\u00e4rt", "unresolved": "AARO \u2013 ungel\u00f6st", "pending": "AARO \u2013 in Analyse"}[status], "explanation": expl},
-            ifo={"status": status, "flags": ["aaro_resolved"] if status == "identified" else [], "score": None, "basis": "AARO-Bewertung"},
+            classification={"scheme": "AARO", "value": status, "label": {"identified": "AARO \u2013 resolved", "unresolved": "AARO \u2013 unresolved", "pending": "AARO \u2013 under analysis"}[status], "explanation": expl},
+            ifo={"status": status, "flags": ["aaro_resolved"] if status == "identified" else [], "score": None, "basis": "AARO assessment"},
             kind="region" if km >= 100 else "site", license=ATTR["aaro"]))
         stats["aaro_mapped"] += 1
     stats["aaro_not_mapped"] = len(AARO_SKIPPED)

@@ -39,7 +39,7 @@ def main():
                         "by_source": dict(collections.Counter(f["properties"]["source"] for f in feats))})
     sky = json.load(open(os.path.join(OUT, "skynow.json"), encoding="utf-8"))
     meta = {
-        "archive_version": None, "schema": "RESEARCH.md \u00a75.2 (Point; fehlende Felder = nicht vorhanden)",
+        "archive_version": None, "schema": "RESEARCH.md \u00a75.2 (Point; missing field = not available)",
         "year_min": 1937, "year_max": 2026, "decades": decades,
         "counts": dict(counts), "classes": {k: dict(v) for k, v in cls.items()}, "ifo": {k: dict(v) for k, v in ifo.items()},
         "shapes": dict(shapes.most_common()), "dropped_out_of_range": dict(dropped),

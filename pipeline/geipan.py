@@ -13,12 +13,13 @@ Privacy: only title (commune + dept), GEIPAN 'Identification' line and class
 import re, collections
 import pandas as pd
 from common import *
+from geipan_gloss import GLOSS
 
 CLASS_TXT = {
-    "A": "A \u2013 eindeutig identifiziert",
-    "B": "B \u2013 wahrscheinlich identifiziert",
-    "C": "C \u2013 nicht identifizierbar (zu wenig Daten)",
-    "D": "D \u2013 nach Untersuchung unerkl\u00e4rt",
+    "A": "A \u2013 clearly identified",
+    "B": "B \u2013 probably identified",
+    "C": "C \u2013 not identifiable (insufficient data)",
+    "D": "D \u2013 unexplained after investigation",
 }
 IFO_STATUS = {"A": "identified", "B": "probable", "C": "insufficient", "D": "unexplained"}
 
@@ -39,7 +40,7 @@ def shape_of(v):
     return None
 
 def strip_names(s):
-    s = NAME_RX.sub(lambda m: m.group(0) if m.group(0).split()[1] in ("Observation", "Observations", "Le", "La", "Les", "Probable", "Ce", "Cette") else "[Name entfernt]", s)
+    s = NAME_RX.sub(lambda m: m.group(0) if m.group(0).split()[1] in ("Observation", "Observations", "Le", "La", "Les", "Probable", "Ce", "Cette") else "[name removed]", s)
     return s
 
 def parse_date(s):
@@ -92,10 +93,10 @@ def main():
             shape=shp.get(title), witnesses=int(wit.get(title, 0)) or None,
             media=("docs" if str(r["Cas contenant des documents"]) == "Oui" else None),
             summary=clip(strip_names(str(r["Identification"]))),
-            classification={"scheme": "GEIPAN", "value": cls, "label": CLASS_TXT.get(cls), "explanation": expl},
+            classification={"scheme": "GEIPAN", "value": cls, "label": CLASS_TXT.get(cls), "explanation": expl, "explanation_en": GLOSS.get(str(r["Ph\u00e9nom\u00e8ne"]).strip()) if expl else None},
             credibility=None,
             ifo={"status": IFO_STATUS.get(cls), "flags": flags, "score": None,
-                 "basis": "GEIPAN-Klassifikation (CNES)"},
+                 "basis": "GEIPAN classification (CNES)"},
             kind=("aero" if "a\u00e9ro" in kind.lower() else "maritime" if "marit" in kind.lower() else "ground"),
             license=ATTR["geipan"]))
     n = write_json(os.path.join(STAGE, "geipan.geojson"), fc(feats, source="geipan", attribution=ATTR["geipan"], input_sha1=file_stamp(os.path.join(RAW, "geipan_export_cas.xlsx"))))

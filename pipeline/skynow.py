@@ -54,9 +54,9 @@ def starlink(now):
 def main():
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
     out = {"generated_utc": now.isoformat().replace("+00:00", "Z"), "attribution": [ATTR["celestrak"], ATTR["ll2"], ATTR["jpl"]],
-           "cors": {"celestrak": "ACAO: * (Client-Fetch technisch m\u00f6glich, aber CelesTrak bittet um max. 1 Abruf / 2 h -> nur Pipeline)",
-                    "ll2": "ACAO: * (Widget l\u00e4dt Starts live nach, Fallback = diese Datei; Limit 15 Abrufe/h pro IP)",
-                    "jpl": "kein ACAO-Header -> nur Pipeline"}}
+           "cors": {"celestrak": "ACAO: * (client fetch possible, but CelesTrak asks for <= 1 download / 2 h -> pipeline only)",
+                    "ll2": "ACAO: * (widget refreshes launches live, fallback = this file; limit 15 requests/h per IP)",
+                    "jpl": "no ACAO header -> pipeline only"}}
     # --- launches (LL2) ---
     ll2 = "https://ll.thespacedevs.com/2.3.0/launches/"
     prev = get(ll2 + "previous/?limit=40&mode=normal", "ll2-previous.json", 3600)   # date filters time out server-side
@@ -120,7 +120,7 @@ def main():
         tracks.append({"launch": lid, "n": len(group), "track": line})
     out["starlink"] = {"epoch_utc": out["generated_utc"], "total": len(pts), "sunlit": int(lit), "maybe_visible": int(vis), "points_fields": ["lon", "lat", "name"],
                        "points": [[x[0], x[1], x[4]] for x in pts if x[2]], "fresh_trains": tracks,
-                       "note": "Sichtbar m\u00f6glich = Satellit in der Sonne, Boden darunter dunkel (Sonne < -6\u00b0). Geometrischer Proxy, kein Helligkeitsmodell."}
+                       "note": "Possibly visible = satellite sunlit while the ground below is dark (Sun < -6\u00b0). Geometric proxy, not a brightness model."}
     n = write_json(os.path.join(OUT, "skynow.json"), out)
     print(f"skynow: starlink {len(pts)} (sunlit {lit}, maybe visible {vis}), trains {[(x['launch'], x['n']) for x in tracks]}, "
           f"launches {len(launches)} (recent {sum(f['properties']['when']=='recent' for f in launches)}), fireballs {len(fbs)}, {n} bytes")

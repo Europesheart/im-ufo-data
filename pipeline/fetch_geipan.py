@@ -39,22 +39,22 @@ def main():
         print("GEIPAN", url)
         blob = fetch(url)
         if not blob or blob[:2] != b"PK":
-            print(f"  ::warning::GEIPAN {name}: kein gueltiger Export, behalte letzte Datei"); continue
+            print(f"  ::warning::GEIPAN {name}: no valid export, keeping last file"); continue
         try:
             new_n = rows(blob)
             old_n = rows(open(path, "rb").read()) if os.path.exists(path) else 0
         except Exception as e:
-            print(f"  ::warning::GEIPAN {name}: XLSX unlesbar ({e!r}), behalte letzte Datei"); continue
+            print(f"  ::warning::GEIPAN {name}: XLSX unreadable ({e!r}), keeping last file"); continue
         if old_n and new_n < 0.9 * old_n:
-            print(f"  ::warning::GEIPAN {name}: nur {new_n} statt {old_n} Zeilen, behalte letzte Datei"); continue
+            print(f"  ::warning::GEIPAN {name}: only {new_n} instead of {old_n} rows, keeping last file"); continue
         old = open(path, "rb").read() if os.path.exists(path) else b""
         # XLSX zips carry timestamps; compare the parsed sheet, not the bytes
         import pandas as pd
         same = bool(old) and pd.read_excel(io.BytesIO(old)).equals(pd.read_excel(io.BytesIO(blob)))
         if same:
-            print(f"  unveraendert ({new_n} Zeilen)"); continue
+            print(f"  unchanged ({new_n} rows)"); continue
         open(path, "wb").write(blob); changed += 1
-        print(f"  aktualisiert: {old_n} -> {new_n} Zeilen")
+        print(f"  updated: {old_n} -> {new_n} rows")
     print("geipan changed files:", changed)
     return 0
 

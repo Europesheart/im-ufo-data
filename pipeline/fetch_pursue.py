@@ -27,7 +27,7 @@ def via_browser():
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
-        print("  playwright nicht installiert"); return None
+        print("  playwright not installed"); return None
     got = {}
     try:
         with sync_playwright() as p:
@@ -62,12 +62,12 @@ def main():
         n = valid(txt) if txt else 0
         if n and n >= 0.9 * old_n:
             if txt == old:
-                print(f"PURSUE unveraendert ({n} Zeilen, via {name})"); return 0
+                print(f"PURSUE unchanged ({n} rows, via {name})"); return 0
             open(PATH, "w", encoding="utf-8", newline="").write(txt)
-            print(f"PURSUE aktualisiert via {name}: {old_n} -> {n} Zeilen"); return 0
+            print(f"PURSUE updated via {name}: {old_n} -> {n} rows"); return 0
         if txt:
-            print(f"  {name}: Antwort unbrauchbar ({n} Zeilen)")
-    print(f"::warning::PURSUE nicht abrufbar (vermutlich 403). Letzte Datei bleibt ({old_n} Zeilen).")
+            print(f"  {name}: unusable response ({n} rows)")
+    print(f"::warning::PURSUE not reachable (probably 403). Keeping last file ({old_n} rows).")
     return 0
 
 if __name__ == "__main__":

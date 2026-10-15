@@ -16,7 +16,7 @@ for p in (RAW, STAGE, CACHE, OUT):
 UA = "im-ufo-data/1.0 (+https://information-machine.blogspot.com; educational map; once-daily fetch)"
 
 ATTR = {
-    "geipan": "\u00a9 CNES/GEIPAN \u2013 Quelle: geipan.fr, Bildungszweck",
+    "geipan": "\u00a9 CNES/GEIPAN \u2013 source: geipan.fr, educational use",
     "nara": "Source: U.S. National Archives (NARA)",
     "aaro": "Source: U.S. Department of War / AARO (public domain, U.S. federal work)",
     "celestrak": "Orbits: CelesTrak (celestrak.org) \u00b7 skyfield",

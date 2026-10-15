@@ -152,11 +152,11 @@ def main():
                     source_url=f"https://catalog.archives.gov/id/{naid}", official=True,
                     date_utc=date, date_precision="month" if month else "year", year=year,
                     location_name=clip(head, 90), country=cc, geo_precision_km=prec,
-                    summary=clip(f"Project Blue Book Fallakte (NARA T1206): {title}"),
-                    classification={"scheme": "BLUEBOOK", "value": None, "label": "Blue Book Akte",
+                    summary=clip(f"Project Blue Book case file (NARA T1206): {title}"),
+                    classification={"scheme": "BLUEBOOK", "value": None, "label": "Blue Book file",
                                     "explanation": None},
                     credibility=None, ifo={"status": None, "flags": [], "score": None,
-                                           "basis": "Blue-Book-Metadaten enthalten keine Fallerkl\u00e4rung"},
+                                           "basis": "Blue Book metadata contain no case explanation"},
                     geocode="coords-in-title" if c else f"geonames:{hit[2]}",
                     license=ATTR["nara"], kind="ground")
         f["properties"]["files"] = [naid]
