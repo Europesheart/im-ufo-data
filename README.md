@@ -19,7 +19,7 @@ GitHub Pages serves `docs/` → `https://europesheart.github.io/im-ufo-data/`. G
 
 | Workflow | When | Does | Failure behaviour |
 |---|---|---|---|
-| `skynow.yml` | every 2 h at :17 UTC + manual | CelesTrak (cached 2 h via `actions/cache`), LL2, JPL → `skynow.json`, `meta.json` | an API failure fails the run; the last published file stays online |
+| `skynow.yml` | every 2 h at :17 UTC + manual | CelesTrak (cached 2 h via `actions/cache`), LL2, JPL → `skynow.json`, `meta.json` | timeout / 403 / 503: retry, then use the cached file at any age (`restore-keys` keeps the previous bucket). No cache at all: keep the published block and exit 0. The run goes red only when there is no published file yet |
 | `daily.yml` | 04:41 UTC + manual | GEIPAN export (2 requests, 15 s apart, one retry on 429), PURSUE CSV (urllib, then headless Chromium) → rebuild archive | 403/429/bad file → keep the committed file, emit `::warning::`, job stays green |
 | `nara.yml` | manual only | downloads the 90.8 MB NARA export + GeoNames cities500 at runtime (not committed), rebuilds Blue Book | — |
 

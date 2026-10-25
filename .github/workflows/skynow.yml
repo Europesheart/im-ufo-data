@@ -30,6 +30,17 @@ jobs:
         with:
           path: .cache/celestrak-starlink.json
           key: celestrak-${{ steps.bucket.outputs.key }}
+          restore-keys: |
+            celestrak-
+      - uses: actions/cache@v4
+        with:
+          path: |
+            .cache/ll2-previous.json
+            .cache/ll2-upcoming.json
+            .cache/jpl-fireball.json
+          key: skynow-feeds-${{ steps.bucket.outputs.key }}
+          restore-keys: |
+            skynow-feeds-
       - uses: actions/cache@v4
         with:
           path: .cache/de421.bsp

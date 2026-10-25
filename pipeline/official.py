@@ -1,8 +1,10 @@
 """Official US items (PURSUE + AARO) at REGION level -> stage/official.geojson
 
 PURSUE: data-src/raw/pursue-uap-data.csv, the CSV the official page https://www.war.gov/UFO/ loads
-        (https://www.war.gov/Portals/1/Interactive/2026/UFO/uap-data.csv?release=6v5, 450 rows,
-        fetched 2026-10-15 with headless Chrome because curl gets 403). Fields used: Title, Agency,
+        (https://www.war.gov/Portals/1/Interactive/2026/UFO/uap-data.csv). Release 07 (2026-10-23)
+        took it from 450 to 478 rows. war.gov answers 403 to this network and to Actions; the
+        2026-10-25 file is the official CSV captured the same day by a browser fetch.
+        Fields used: Title, Agency,
         Release Date, Incident Date, Incident Location, Description Blurb, PDF | Image Link.
 AARO  : items transcribed from https://www.aaro.mil/UAP-Cases/Official-UAP-Imagery/ and
         .../UAP-Case-Resolution-Reports/ (WebFetch 2026-10-15). Only items whose page text gives
@@ -45,10 +47,14 @@ REGION = {  # name -> (lat, lon, precision_km, country)
  "papua new guinea": (-6.5, 145.5, 500, "PG"), "georgia": (41.72, 44.79, 30, "GE"),  # row = Tbilisi cable
  "turkmenistan": (39.0, 59.5, 400, "TM"), "mexico": (23.6, -102.5, 1200, "MX"), "africom": (5.0, 20.0, 3000, None),
  "europe": (50.0, 15.0, 2500, None), "africa": (5.0, 20.0, 3000, None),
+ "saudi arabia": (24.0, 45.0, 800, "SA"), "guam": (13.44, 144.79, 40, "GU"), "italy": (42.5, 12.5, 400, "IT"),
+ "canada": (56.0, -96.0, 2000, "CA"), "morocco": (31.8, -7.1, 500, "MA"), "alaska": (64.2, -153.0, 900, "US"),
+ "catalina island, california": (33.39, -118.42, 20, "US"),
+ "san fransisco, california": (37.77, -122.42, 25, "US"), "san francisco, california": (37.77, -122.42, 25, "US"),
 }
 SKIP_LOC = {"moon", "low earth orbit", "low-earth orbit", "cislunar space", "various", "pacific time zone",
             "united states", "north america", "northcom", "indo-pacom", "indopacom", "montana, utah",
-            "ladakh, nepal | sikkim, india | bhutam", "northeastern u.s.; afghanistan", "nan", ""}
+            "ladakh, nepal | sikkim, india | bhutam", "northeastern u.s.; afghanistan", "nan", "", "n/a"}
 NON_SIGHTING = re.compile(r"AAWSAP|DIRD|Committee|Correspondence|Progress Report|Analysis of|Presentation|Transcript|"
                           r"Statement of Objectives|Solicitation|Contract|Briefing|Memo(randum)? for", re.I)
 MONTHS = {m: i + 1 for i, m in enumerate("january february march april may june july august september october november december".split())}
