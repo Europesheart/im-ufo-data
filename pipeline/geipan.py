@@ -43,6 +43,28 @@ def strip_names(s):
     s = NAME_RX.sub(lambda m: m.group(0) if m.group(0).split()[1] in ("Observation", "Observations", "Le", "La", "Les", "Probable", "Ce", "Cette") else "[name removed]", s)
     return s
 
+# GEIPAN switched these four cas-export headers to English (seen 2026-11-20).
+# Cell values stayed French. Either header is accepted; a file with neither is rejected.
+CAS_ALIASES = {
+    "Observation date": "Date d'observation",
+    "Department": "D\u00e9partement",
+    "Phenomenon": "Ph\u00e9nom\u00e8ne",
+    "Region": "R\u00e9gion",
+}
+CAS_REQUIRED = (
+    "ID Etude de Cas", "Titre du Cas", "Ann\u00e9e", "Identification", "Classification",
+    "Date d'observation", "D\u00e9partement", "Cas contenant des documents",
+    "Latitude", "Longitude", "Ph\u00e9nom\u00e8ne", "Type de cas",
+)
+TEM_REQUIRED = ("T\u00e9moignage", "Forme globale")
+
+def normalize_export(df, aliases=CAS_ALIASES):
+    rename = {src: dst for src, dst in aliases.items() if src in df.columns and dst not in df.columns}
+    return df.rename(columns=rename) if rename else df
+
+def missing_columns(df, required):
+    return [c for c in required if c not in df.columns]
+
 def parse_date(s):
     m = re.match(r"(\-\-|\d{2})/(\-\-|\d{2})/(\d{4})", str(s))
     if not m:
@@ -60,8 +82,14 @@ def place_of(title):
     return t.strip()
 
 def main():
-    cas = pd.read_excel(os.path.join(RAW, "geipan_export_cas.xlsx"))
+    cas = normalize_export(pd.read_excel(os.path.join(RAW, "geipan_export_cas.xlsx")))
+    miss = missing_columns(cas, CAS_REQUIRED)
+    if miss:
+        raise SystemExit("GEIPAN cas export is missing columns the map needs: " + ", ".join(miss))
     tem = pd.read_excel(os.path.join(RAW, "geipan_export_temoignages.xlsx"))
+    miss = missing_columns(tem, TEM_REQUIRED)
+    if miss:
+        raise SystemExit("GEIPAN testimony export is missing columns the map needs: " + ", ".join(miss))
     tem["case"] = tem["T\u00e9moignage"].astype(str).str.replace(r"\s+T\d+\s*$", "", regex=True).str.strip()
     wit = tem.groupby("case").size().to_dict()
     shp = {}
